@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BaroniJulienProjet6PayMyBuddyApplication {
 
     //TODO : externaliser les configurations de connection à la base de donnée
+    //TODO : refaire le diagramme de donnes avec le modele suivant OpenClassRoom
+    //TODO : creer un entity manager
     public static void main(String[] args) {
         SpringApplication.run(BaroniJulienProjet6PayMyBuddyApplication.class, args);
     }
