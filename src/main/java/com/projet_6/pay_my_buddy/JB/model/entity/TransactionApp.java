@@ -7,13 +7,13 @@ import sun.util.calendar.BaseCalendar;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "TransactionApp")
+@Entity
 @Getter
 @Setter
 public class TransactionApp {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,name="date")

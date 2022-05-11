@@ -3,11 +3,11 @@ package com.projet_6.pay_my_buddy.JB.model.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="TransactionBank")
+@Entity
 public class TransactionBank {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,name="date")

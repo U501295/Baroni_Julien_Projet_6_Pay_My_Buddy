@@ -7,13 +7,15 @@ import org.springframework.data.annotation.Transient;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "User")
+@Entity
 @Getter
 @Setter
+@Table(name="User")
 public class User {
 
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,name="emailAdress")
