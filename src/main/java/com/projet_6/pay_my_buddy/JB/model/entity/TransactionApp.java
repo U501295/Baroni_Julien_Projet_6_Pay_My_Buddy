@@ -10,23 +10,27 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table(name="transaction_app")
 public class TransactionApp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "transaction_app_id")
+    private Integer id;
 
     @Column(nullable = false,name="date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @ManyToOne
+    @Column(name = "user_id")
     private User sender;
 
     @ManyToOne
+    @Column(name = "user_id")
     private User receiver;
 
-    @Column(name="transferedAmount")
+    @Column(name="transfered_amount")
     private float appTransferedAmount;
 
 }
