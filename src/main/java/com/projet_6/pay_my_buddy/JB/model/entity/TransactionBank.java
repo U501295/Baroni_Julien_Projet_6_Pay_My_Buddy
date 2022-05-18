@@ -15,16 +15,18 @@ public class TransactionBank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_bank_id")
-    private Long id;
+    private Long transactionBankId;
 
     @Column(nullable = false,name="date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(nullable = false,name="transferedAmount")
+    @Column(nullable = false,name="amount_transfered")
     private float bankTransferedAmount;
 
-    @ManyToOne
-    @Column(nullable = false,name="bank_account_id")
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name="bank_account_id")
     private BankAccount bankAccount;
 }

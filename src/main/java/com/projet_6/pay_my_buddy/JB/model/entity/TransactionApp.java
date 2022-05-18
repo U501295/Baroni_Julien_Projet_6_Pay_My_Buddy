@@ -16,18 +16,22 @@ public class TransactionApp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_app_id")
-    private Integer id;
+    private Long transactionAppId;
 
     @Column(nullable = false,name="date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @ManyToOne
-    @Column(name = "user_id")
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name="user_sender_id")
     private User sender;
 
-    @ManyToOne
-    @Column(name = "user_id")
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name="user_receiver_id")
     private User receiver;
 
     @Column(name="transfered_amount")
