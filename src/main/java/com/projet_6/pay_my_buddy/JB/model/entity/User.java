@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="user")
+@Table(name="users")
 public class User {
 
 
@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false,name="email")
     private String email;
 
-    @Column(nullable = false,name="password")
+    @Column(nullable = false,name="pass_word")
     private String password;
 
     @Column(nullable = false,name="amount_app_account")
@@ -39,7 +39,7 @@ public class User {
             }
     )
     @JoinTable(
-            name = "assoc_user_user",
+            name = "assoc_users_users",
             joinColumns = @JoinColumn(name = "user_live_id"),
             inverseJoinColumns = @JoinColumn(name = "user_ressource_id")
     )

@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="bank_account")
+@Table(name="bank_accounts")
 public class BankAccount {
 
     @Id
