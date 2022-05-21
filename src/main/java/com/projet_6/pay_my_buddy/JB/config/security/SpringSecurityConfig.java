@@ -46,24 +46,24 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .withDefaultSchema()
+                //TODO : voir ici le problème de l'admin qui peut pas se connecter en tant qu'admin
                 /*.withUser(User.withUsername("spring@user.fr")
                         .password(passwordEncoder().encode("spring123"))
                         .roles("USER"))
                 .withUser("spring@admin.fr")
                         .password(passwordEncoder().encode("admin123"))
                         .roles("ADMIN", "USER");*/
-
                 .usersByUsernameQuery(
-                "select username,password, enabled from users where username=?")
+                "select email,pass_word, enabled from users where email=?")
                 .authoritiesByUsernameQuery(
-                        "select username, role from user_roles where username=?");
+                "select email, authority from authorities where email=?");
 
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder;
     }
 
 }
