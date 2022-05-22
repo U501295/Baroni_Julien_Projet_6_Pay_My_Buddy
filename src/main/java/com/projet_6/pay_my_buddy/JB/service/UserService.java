@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
+import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionBankRepository;
 import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
@@ -19,6 +20,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getConnectedUserByEmail(String email) {
+        Optional<User> connectedUser = userRepository.findUserByEmail(email);
+        return connectedUser;
+    }
+
     public User addUser(User user) {
         return userRepository.save(user);
     }
@@ -30,11 +36,20 @@ public class UserService {
 
     }
 
+    public Iterable<Long> getContactsId(Long id) {
+        return userRepository.findAUserContacts(id);
+    }
+
     public void deleteContact(User user, Long idOfUserToDelete) {
         List<User> contacts = user.getContacts();
         contacts.remove(getUserById(idOfUserToDelete).get());
         user.setContacts(contacts);
 
+    }
+
+    public String getUserName(User user) {
+        String name = user.getFirstName() + "  " + user.getLastName();
+        return name;
     }
 
 

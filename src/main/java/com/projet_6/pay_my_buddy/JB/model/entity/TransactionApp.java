@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name="transactions_app")
+@Table(name = "transactions_app")
 public class TransactionApp {
 
     @Id
@@ -18,23 +18,26 @@ public class TransactionApp {
     @Column(name = "transaction_app_id")
     private Long transactionAppId;
 
-    @Column(nullable = false,name="date")
+    @Column(nullable = false, name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @ManyToOne(
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name="user_sender_id")
+    @JoinColumn(name = "user_sender_id")
     private User sender;
 
     @ManyToOne(
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name="user_receiver_id")
+    @JoinColumn(name = "user_receiver_id")
     private User receiver;
 
-    @Column(name="transfered_amount")
+    @Column(name = "transfered_amount")
     private float appTransferedAmount;
+
+    @Column(name = "description_expense")
+    private String description;
 
 }

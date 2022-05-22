@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransactionAppRepository extends CrudRepository<TransactionApp, Integer>{
+public interface TransactionAppRepository extends CrudRepository<TransactionApp, Long> {
 }

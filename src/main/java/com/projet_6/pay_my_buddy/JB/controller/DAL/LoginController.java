@@ -30,13 +30,13 @@ public class LoginController {
     @GetMapping("HOME")
     public String regularUserLogin() {
         log.info("connexion request from user {}", SecurityUtils.getUserName());
-        return "Welcome to payMyBuddyApp dear user";
+        return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserName();
     }
 
     @RolesAllowed({"USER", "ADMIN"})
     @RequestMapping("HOME/admin")
     public String getAdmin() {
         log.info("connexion request from admin {}", SecurityUtils.getUserName());
-        return "Welcome to payMyBuddyApp dear admin";
+        return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserName();
     }
 }
