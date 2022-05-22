@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.model.entity;
 
+import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,15 +52,15 @@ public class User {
             joinColumns = @JoinColumn(name = "user_live_id"),
             inverseJoinColumns = @JoinColumn(name = "user_ressource_id")
     )
-    private List<User> contacts = new ArrayList<>();
+    private List<User> contacts;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_account_id")
-    private List<BankAccount> bankAccounts = new ArrayList<>();
-    ;
+    private List<BankAccount> bankAccounts;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -67,7 +68,23 @@ public class User {
             fetch = FetchType.EAGER)
     @JoinColumn(name = "transaction_app_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<TransactionApp> transactionUsers = new ArrayList<>();
+    private List<TransactionApp> transactionUsers;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_live_id")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<AssocUsersUsers> liveUsers;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_ressource_id")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<AssocUsersUsers> ressourceUsers;
 
 
 }

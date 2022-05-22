@@ -35,10 +35,10 @@ class UserServiceTest {
         Assertions.assertThat(userTest.getUserId().equals(1L)).isTrue();
     }
 
-    @Test
+    /*@Test
     void getUserContacts() {
         Long id = 1L;
         Iterable<Long> userTest = userService.getContactsId(id);
         String endpoint = "";
-    }
+    }*/
 }

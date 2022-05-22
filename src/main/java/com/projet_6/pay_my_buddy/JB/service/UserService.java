@@ -36,9 +36,9 @@ public class UserService {
 
     }
 
-    public Iterable<Long> getContactsId(Long id) {
+    /*public Iterable<Long> getContactsId(Long id) {
         return userRepository.findAUserContacts(id);
-    }
+    }*/
 
     public void deleteContact(User user, Long idOfUserToDelete) {
         List<User> contacts = user.getContacts();
