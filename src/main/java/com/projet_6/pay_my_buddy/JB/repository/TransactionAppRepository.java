@@ -5,6 +5,10 @@ import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TransactionAppRepository extends CrudRepository<TransactionApp, Long> {
+
+    public List<TransactionApp> findAllBySender(User senderUser);
 }

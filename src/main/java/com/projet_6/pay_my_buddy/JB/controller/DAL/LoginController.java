@@ -24,8 +24,6 @@ public class LoginController {
         return "Welcome User";
     }*/
 
-    @Autowired
-    UserService userService;
 
     @GetMapping("HOME")
     public String regularUserLogin() {

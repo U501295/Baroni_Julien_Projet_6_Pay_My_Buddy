@@ -19,6 +19,9 @@ class UserServiceTest {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TransactionAppService transactionAppService;
+
     @Test
     void getUserById() {
         Long id = 1L;
@@ -35,10 +38,36 @@ class UserServiceTest {
         Assertions.assertThat(userTest.getUserId().equals(1L)).isTrue();
     }
 
-    /*@Test
-    void getUserContacts() {
+    @Test
+    void getUserContactsId() {
         Long id = 1L;
-        Iterable<Long> userTest = userService.getContactsId(id);
+        List<Long> contactsIdTest = userService.getContactsIdFromAConnectedUser(id);
         String endpoint = "";
-    }*/
+    }
+
+    @Test
+    void getUserContactsName() {
+        List<Long> contactsIdTest = userService.getContactsIdFromAConnectedUser(1L);
+        List<String> contactsNamesTest = userService.getContactsNamesFromTheirIds(contactsIdTest);
+        String endpoint = "";
+    }
+
+    @Test
+    void getIdOfReceiversFromAConnectedUser() {
+        List<Long> receiversId = transactionAppService.getIdOfReceiversFromAConnectedUser(userService.getTransactionsFromAConnectedUser(1L));
+        String endpoint = "";
+    }
+
+    @Test
+    void getDescriptionsFromAConnectedUserTransactions() {
+        List<String> descriptions = transactionAppService.getDescriptionsFromAConnectedUserTransactions(userService.getTransactionsFromAConnectedUser(1L));
+        String endpoint = "";
+    }
+
+    @Test
+    void getExpensesAmountFromAConnectedUser() {
+        List<Float> expenses = transactionAppService.getExpensesAmountFromAConnectedUser(userService.getTransactionsFromAConnectedUser(1L));
+        String endpoint = "";
+    }
+
 }
