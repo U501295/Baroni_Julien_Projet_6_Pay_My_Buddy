@@ -11,7 +11,7 @@ public final class SecurityUtils {
     }
 
 
-    public static String getUserName() {
+    public static String getUserMail() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         String userName = null;

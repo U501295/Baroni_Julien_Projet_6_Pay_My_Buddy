@@ -1,17 +1,13 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
-import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceTest {
@@ -67,6 +63,12 @@ class UserServiceTest {
     @Test
     void getExpensesAmountFromAConnectedUser() {
         List<Float> expenses = transactionAppService.getExpensesAmountFromAConnectedUser(userService.getTransactionsFromAConnectedUser(1L));
+        String endpoint = "";
+    }
+
+    @Test
+    void getNameFromEmail() {
+        String name = userService.getNamefromEmail("spring@user1.fr");
         String endpoint = "";
     }
 

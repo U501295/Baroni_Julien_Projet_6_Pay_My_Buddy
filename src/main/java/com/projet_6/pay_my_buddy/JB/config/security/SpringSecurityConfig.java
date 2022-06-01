@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,7 +24,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/templates/PayMyBuddy").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();
@@ -54,14 +52,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .password(passwordEncoder().encode("admin123"))
                         .roles("ADMIN", "USER");*/
                 .usersByUsernameQuery(
-                "select email,pass_word, enabled from users where email=?")
+                        "select email,pass_word, enabled from users where email=?")
                 .authoritiesByUsernameQuery(
-                "select email, authority from authorities where email=?");
+                        "select email, authority from authorities where email=?");
 
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
     }

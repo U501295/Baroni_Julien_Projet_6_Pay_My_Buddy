@@ -4,9 +4,7 @@ import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
-import com.projet_6.pay_my_buddy.JB.repository.AssocUsersUsersRepository;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
-import com.projet_6.pay_my_buddy.JB.repository.TransactionBankRepository;
 import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,10 +57,21 @@ public class UserService {
         return contactsIds;
     }
 
-    public String getAUserNamefromHisId(Long id) {
+    public String getNamefromId(Long id) {
         String userName = getUserById(id).get().getFirstName() + "  " + getUserById(id).get().getLastName();
         return userName;
     }
+
+    public String getNamefromEmail(String email) {
+        String name = getConnectedUserByEmail(email).get().getFirstName() + "  " + getConnectedUserByEmail(email).get().getLastName();
+        return name;
+    }
+
+    public float getBalancefromEmail(String email) {
+        float balance = getConnectedUserByEmail(email).get().getAmountAppAccount();
+        return balance;
+    }
+
 
     public List<String> getContactsNamesFromTheirIds(List<Long> contactIds) {
         List<String> contactsNames = new ArrayList<>();
@@ -87,7 +96,7 @@ public class UserService {
         User connectedUser = getConnectedUserByEmail(email).get();
         List<TransactionApp> transactions = getTransactionsFromAConnectedUser(connectedUser.getUserId());
         for (TransactionApp t : transactions) {
-            MyTransactionLineDTO transactionDto = new MyTransactionLineDTO(getAUserNamefromHisId(t.getReceiver().getUserId()), t.getDescription(), t.getAppTransferedAmount());
+            MyTransactionLineDTO transactionDto = new MyTransactionLineDTO(getNamefromId(t.getReceiver().getUserId()), t.getDescription(), t.getAppTransferedAmount());
             transactionsDto.add(transactionDto);
         }
         return transactionsDto;

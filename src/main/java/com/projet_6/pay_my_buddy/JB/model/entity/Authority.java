@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="authorities")
+@Table(name = "authorities")
 public class Authority {
 
     @Id
@@ -19,10 +19,17 @@ public class Authority {
     @Column(name = "authority_id")
     private Long authorityId;
 
-    private enum roles{
-        USER,
-        ADMIN
-    }
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "email")
+    @Fetch(value = FetchMode.SUBSELECT)
+    @Column(nullable = false, name = "email")
+    private List<User> users;
+
+    @Column(nullable = false, name = "authority")
+    private String role;
 
 
 }

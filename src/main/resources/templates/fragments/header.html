@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+
+<body>
+<div class="container-fluid p-3 d-flex justify-content-between" th:fragment="header">
+
+    <div class="w-25 btn bg-success my-auto">
+        <p class="text-black my-auto">PAY MY BUDDY</p>
+
+    </div>
+
+    <nav>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="/PayMyBuddy/home">home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="/PayMyBuddy/transferApp">applicationTransfer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="/PayMyBuddy/transferBank">bankTransfer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="/PayMyBuddy/profile">profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="/PayMyBuddy/contacts">contacts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="javascript: document.logoutForm.submit()">logOff</a>
+                <form method="post" name="logoutForm" th:action="@{/logout}" th:hidden="true">
+                    <input hidden type="submit" value="Sign Out"/>
+                </form>
+            </li>
+        </ul>
+
+
+    </nav>
+
+
+</div>
+</body>
