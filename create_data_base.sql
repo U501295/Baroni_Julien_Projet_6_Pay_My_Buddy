@@ -9,7 +9,10 @@ first_name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 pass_word VARCHAR(100) NOT NULL,
 enabled  TINYINT NOT NULL DEFAULT 1,
-amount_app_account FLOAT
+amount_app_account FLOAT,
+authority_id BIGINT NOT NULL,
+FOREIGN KEY (authority_id)
+REFERENCES authorities (authority_id)
 );
 
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account,enabled)
@@ -30,26 +33,14 @@ values ('spring@admin1.fr','Paul','Poulpe','$2y$10$9qtkP2dKgSthPyCV/32weOhijCbYm
 CREATE TABLE authorities
 (
 authority_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-email VARCHAR(100) NOT NULL UNIQUE,
-authority VARCHAR(50) NOT NULL,
-FOREIGN KEY (email) 
-REFERENCES users (email)
+authority VARCHAR(10) NOT NULL UNIQUE
 );
 
-INSERT INTO authorities (email,authority)
-values ('spring@user1.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@user2.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@user3.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@user4.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@user5.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@user6.fr','USER');
-INSERT INTO authorities (email,authority)
-values ('spring@admin1.fr','ADMIN');
+INSERT INTO authorities (authority)
+values ('USER');
+INSERT INTO authorities (authority)
+values ('ADMIN');
+
 
 CREATE TABLE bank_accounts(
 bank_account_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,13 +73,13 @@ VALUES
 	('2022-05-21',100.0,1);
 
 CREATE TABLE assoc_users_users(
+assoc_users_users_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 user_live_id BIGINT NOT NULL,
 user_ressource_id BIGINT NOT NULL,
 FOREIGN KEY (user_live_id)
 REFERENCES users (user_id),
 FOREIGN KEY (user_ressource_id)
-REFERENCES users (user_id),
-PRIMARY KEY(user_live_id,user_ressource_id)
+REFERENCES users (user_id)
 );
 
 INSERT INTO assoc_users_users(user_live_id,user_ressource_id)
@@ -97,7 +88,9 @@ VALUES
     (1,3),
     (1,4),
     (1,5),
-    (1,6);
+    (1,6),
+    (2,1),
+    (2,3);
 
 CREATE TABLE transactions_app(
 transaction_app_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "user_id")
@@ -61,7 +60,6 @@ public class User {
     @JoinColumn(name = "bank_account_id")
     private List<BankAccount> bankAccounts;
 
-
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -69,6 +67,12 @@ public class User {
     @JoinColumn(name = "transaction_app_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TransactionApp> transactionUsers;
+
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(nullable = false, name = "authority_id")
+    private Authority role;
 
     @OneToMany(
             cascade = CascadeType.ALL,

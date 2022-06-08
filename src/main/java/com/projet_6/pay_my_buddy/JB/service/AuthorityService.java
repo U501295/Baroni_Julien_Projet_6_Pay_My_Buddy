@@ -7,14 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorityService {
 
-    /*@Autowired
+    @Autowired
     AuthorityRepository authorityRepository;
 
-    @Autowired
-    UserService userService;
-
-    public String getUserAuthorityFromEmail(String email) {
-        String authority = authorityRepository.findAuthorityByEmail(email).get().getRole();
+    public String getAuthorityFromAuthorityId(long id) {
+        String authority = authorityRepository.findAuthorityByAuthorityId(id).get().getAuthority();
         return authority;
-    }*/
+    }
 }

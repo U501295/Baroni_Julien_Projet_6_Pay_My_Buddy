@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.repository;
 
+import com.projet_6.pay_my_buddy.JB.model.entity.Authority;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    public Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
+
 
 
 

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -45,16 +46,38 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
                 //TODO : voir ici le problème de l'admin qui peut pas se connecter en tant qu'admin
-                /*.withUser(User.withUsername("spring@user.fr")
-                        .password(passwordEncoder().encode("spring123"))
+                /*.withUser(User.withUsername("spring@user1.fr")
+                        .password(passwordEncoder().encode("user1"))
                         .roles("USER"))
-                .withUser("spring@admin.fr")
-                        .password(passwordEncoder().encode("admin123"))
-                        .roles("ADMIN", "USER");*/
+                .withUser(User.withUsername("spring@user2.fr")
+                        .password(passwordEncoder().encode("user2"))
+                        .roles("USER"))
+                .withUser(User.withUsername("spring@user3.fr")
+                        .password(passwordEncoder().encode("user3"))
+                        .roles("USER"))
+                .withUser(User.withUsername("spring@user4.fr")
+                        .password(passwordEncoder().encode("user4"))
+                        .roles("USER"))
+                .withUser(User.withUsername("spring@user5.fr")
+                        .password(passwordEncoder().encode("user5"))
+                        .roles("USER"))
+                .withUser(User.withUsername("spring@user6.fr")
+                        .password(passwordEncoder().encode("user6"))
+                        .roles("USER"))
+                .withUser(User.withUsername("spring@admin1.fr")
+                        .password(passwordEncoder().encode("admin1"))
+                        .roles("ADMIN", "USER"))
+
+                .withUser("toto")
+                .password(passwordEncoder().encode("admin1"))
+                .roles("ADMIN", "USER");*/
                 .usersByUsernameQuery(
                         "select email,pass_word, enabled from users where email=?")
+                //.authoritiesByUsernameQuery(
+                //"select email, authority from authorities where email=?");
                 .authoritiesByUsernameQuery(
-                        "select email, authority from authorities where email=?");
+                        "select email,authority from authorities JOIN users ON users.authority_id = authorities.authority_id where email=?");
+
 
     }
 

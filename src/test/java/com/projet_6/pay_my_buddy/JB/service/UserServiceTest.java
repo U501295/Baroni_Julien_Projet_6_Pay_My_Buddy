@@ -50,19 +50,19 @@ class UserServiceTest {
 
     @Test
     void getIdOfReceiversFromAConnectedUser() {
-        List<Long> receiversId = transactionAppService.getIdOfReceiversFromAConnectedUser(userService.getTransactionsFromAConnectedUser(1L));
+        List<Long> receiversId = transactionAppService.getIdOfReceiversFromAConnectedUser(userService.getTransactionsFromAConnectedUserId(1L));
         String endpoint = "";
     }
 
     @Test
     void getDescriptionsFromAConnectedUserTransactions() {
-        List<String> descriptions = transactionAppService.getDescriptionsFromAConnectedUserTransactions(userService.getTransactionsFromAConnectedUser(1L));
+        List<String> descriptions = transactionAppService.getDescriptionsFromAConnectedUserTransactions(userService.getTransactionsFromAConnectedUserId(1L));
         String endpoint = "";
     }
 
     @Test
     void getExpensesAmountFromAConnectedUser() {
-        List<Float> expenses = transactionAppService.getExpensesAmountFromAConnectedUser(userService.getTransactionsFromAConnectedUser(1L));
+        List<Float> expenses = transactionAppService.getExpensesAmountFromAConnectedUser(userService.getTransactionsFromAConnectedUserId(1L));
         String endpoint = "";
     }
 
@@ -72,4 +72,28 @@ class UserServiceTest {
         String endpoint = "";
     }
 
+    @Test
+    void getAuthorityFromEmail() {
+        String authority = userService.getAuthorityFromEmail("spring@admin1.fr");
+        String endpoint = "";
+    }
+
+    @Test
+    void getBalanceFromEmail() {
+        float balance = userService.getBalanceFromEmail("spring@admin1.fr");
+        String endpoint = "";
+
+    }
+
+    @Test
+    void getContactsEmailFromAConnectedUserEmail() {
+        List<String> emails = userService.getContactsEmailFromAConnectedUserEmail("spring@user1.fr");
+        String endpoint = "";
+    }
+
+    @Test
+    void getContactsNameFromAConnectedUserEmail() {
+        List<String> names = userService.getContactsNameFromAConnectedUserEmail("spring@user1.fr");
+        String endpoint = "";
+    }
 }

@@ -7,15 +7,15 @@
 </head>
 <body>
 <!-- navbar-->
-<div th:replace="fragment/header :: header"></div>
-<!-- breadcrumb-->
+<div th:replace="fragments/header :: header"></div>
+<!-- breadcrumb
 <div class="container-fluid p-2 pb-1 bg-light">
     <nav aria-label="" breadcrumb>
         <ol breadcrumb class="">
             <li aria-current="page" class="breadcrumb-item active">contacts</li>
         </ol>
     </nav>
-</div>
+</div>-->
 
 <div class="container-lg pt-5">
     <h2 class="text-center">
@@ -23,7 +23,17 @@
     </h2>
 
 </div>
-
-
+<h2 class="h2">My Contacts</h2>
+<table>
+    <tbody>
+    <tr th:if="${names.isEmpty()}">
+        <td colspan="3">No contacts found in database</td>
+    </tr>
+    <tr th:each="name: ${contactsNames}">
+        <td><span th:text="${name}"></span></td>
+    </tr>
+    </tbody>
+</table>
 </body>
+
 </html>

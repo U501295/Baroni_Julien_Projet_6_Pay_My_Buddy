@@ -7,19 +7,35 @@
 </head>
 <body>
 <!-- navbar-->
-<div th:replace="fragment/header :: header"></div>
-<!-- breadcrumb-->
+<div th:replace="fragments/header :: header"></div>
+<!-- breadcrumb
 <div class="container-fluid p-2 pb-1 bg-light">
     <nav aria-label="" breadcrumb>
         <ol breadcrumb class="">
             <li aria-current="page" class="breadcrumb-item active">profile</li>
         </ol>
     </nav>
-</div>
+</div>-->
 
 <div class="container-lg pt-5">
     <h2 class="text-center">
         <span>profile</span>
+    </h2>
+    <h2 class="text-center">
+        <span>USER NAME</span>
+        <span th:text="${userName}"></span>
+    </h2>
+    <h2 class="text-center">
+        <span>NAME</span>
+        <span th:text="${name}"></span>
+    </h2>
+    <h2 class="text-center">
+        <span>BALANCE</span>
+        <span th:text="${balance}"></span>
+    </h2>
+    <h2 class="text-center">
+        <span>ROLE</span>
+        <span th:text="${authority}"></span>
     </h2>
 
 </div>

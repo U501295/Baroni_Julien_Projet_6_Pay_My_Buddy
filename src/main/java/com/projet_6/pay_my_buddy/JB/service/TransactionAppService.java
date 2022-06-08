@@ -52,7 +52,7 @@ public class TransactionAppService {
 
     /*public MyTransactionLineDTO getTheUserAppTransactionLine(Long id) {
         User user = userService.getUserById(id).get();
-        String userName = userService.getUserName(user);
+        String userMail = userService.getUserName(user);
         //TODO : besoin de faire requete SQL
 
     }*/

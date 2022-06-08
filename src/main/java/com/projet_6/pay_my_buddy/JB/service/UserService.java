@@ -28,6 +28,7 @@ public class UserService {
     @Autowired
     private TransactionAppRepository transactionAppRepository;
 
+
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
@@ -48,6 +49,16 @@ public class UserService {
 
     }
 
+    public String getAuthorityFromEmail(String email) {
+        String authority = getConnectedUserByEmail(email).get().getRole().getAuthority();
+        return authority;
+    }
+
+    public float getBalanceFromEmail(String email) {
+        float balance = getConnectedUserByEmail(email).get().getAmountAppAccount();
+        return balance;
+    }
+
     public List<Long> getContactsIdFromAConnectedUser(Long connectedUserId) {
         Iterable<AssocUsersUsers> associations = assocUsersUsersService.getAllAssociationsCorrespondingToLiveUser(getUserById(connectedUserId).get().getUserId());
         List<Long> contactsIds = new ArrayList<>();
@@ -55,6 +66,24 @@ public class UserService {
             contactsIds.add(u.getUserRessourceId().getUserId());
         }
         return contactsIds;
+    }
+
+    public List<String> getContactsNameFromAConnectedUserEmail(String email) {
+        Iterable<AssocUsersUsers> associations = assocUsersUsersService.getAllAssociationsCorrespondingToLiveUser(getConnectedUserByEmail(email).get().getUserId());
+        List<String> contactsName = new ArrayList<>();
+        for (AssocUsersUsers u : associations) {
+            contactsName.add(getNamefromEmail(u.getUserRessourceId().getEmail()));
+        }
+        return contactsName;
+    }
+
+    public List<String> getContactsEmailFromAConnectedUserEmail(String email) {
+        Iterable<AssocUsersUsers> associations = assocUsersUsersService.getAllAssociationsCorrespondingToLiveUser(getConnectedUserByEmail(email).get().getUserId());
+        List<String> contactsName = new ArrayList<>();
+        for (AssocUsersUsers u : associations) {
+            contactsName.add(u.getUserRessourceId().getEmail());
+        }
+        return contactsName;
     }
 
     public String getNamefromId(Long id) {
@@ -81,7 +110,7 @@ public class UserService {
         return contactsNames;
     }
 
-    public List<TransactionApp> getTransactionsFromAConnectedUser(Long connectedUserId) {
+    public List<TransactionApp> getTransactionsFromAConnectedUserId(Long connectedUserId) {
         //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
         List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getUserById(connectedUserId).get());
         /*for (Long contactId:contactsId) {
@@ -91,10 +120,30 @@ public class UserService {
         return transactionsFromAConnectedUser;
     }
 
+    public List<TransactionApp> getTransactionsFromAConnectedUserEmail(String email) {
+        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
+        List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());
+        /*for (Long contactId:contactsId) {
+            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
+        }
+        transactionAppRepository.findAllByReceiver(userService.getUserById());*/
+        return transactionsFromAConnectedUser;
+    }
+
+    /*public List<Float> getAmountsFromAConnectedUserTransactions(String email) {
+        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
+        List<Float> AmountsFromAConnectedUserTransactions = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());
+        /*for (Long contactId:contactsId) {
+            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
+        }
+        transactionAppRepository.findAllByReceiver(userService.getUserById());
+        return AmountsFromAConnectedUserTransactions;
+    }*/
+
     public List<MyTransactionLineDTO> getTheConnectedUserTransactions(String email) {
         List<MyTransactionLineDTO> transactionsDto = new ArrayList<>();
         User connectedUser = getConnectedUserByEmail(email).get();
-        List<TransactionApp> transactions = getTransactionsFromAConnectedUser(connectedUser.getUserId());
+        List<TransactionApp> transactions = getTransactionsFromAConnectedUserId(connectedUser.getUserId());
         for (TransactionApp t : transactions) {
             MyTransactionLineDTO transactionDto = new MyTransactionLineDTO(getNamefromId(t.getReceiver().getUserId()), t.getDescription(), t.getAppTransferedAmount());
             transactionsDto.add(transactionDto);
@@ -114,6 +163,6 @@ public class UserService {
         String name = user.getFirstName() + "  " + user.getLastName();
         return name;
     }
-
+    
 
 }

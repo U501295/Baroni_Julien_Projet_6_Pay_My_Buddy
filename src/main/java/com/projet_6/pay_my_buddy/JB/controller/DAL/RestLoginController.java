@@ -21,7 +21,7 @@ public class RestLoginController {
     }*/
 
 
-    @GetMapping("HOME")
+    @GetMapping("accueil")
     public String regularUserLogin() {
         log.info(" Rest connexion request from user {}", SecurityUtils.getUserMail());
         return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
