@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
+import com.projet_6.pay_my_buddy.JB.model.entity.Authority;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,9 @@ class UserServiceTest {
     @Autowired
     TransactionAppService transactionAppService;
 
+    @Autowired
+    AuthorityService authorityService;
+
     @Test
     void getUserById() {
         Long id = 1L;
@@ -30,7 +34,7 @@ class UserServiceTest {
     @Test
     void getUserByEmail() {
         String email = "spring@user1.fr";
-        User userTest = userService.getConnectedUserByEmail(email).get();
+        User userTest = userService.getUserByEmail(email).get();
         Assertions.assertThat(userTest.getUserId().equals(1L)).isTrue();
     }
 
@@ -95,5 +99,19 @@ class UserServiceTest {
     void getContactsNameFromAConnectedUserEmail() {
         List<String> names = userService.getContactsNameFromAConnectedUserEmail("spring@user1.fr");
         String endpoint = "";
+    }
+
+    @Test
+    void addContact() {
+        userService.addContact("spring@user2.fr", "spring@user4.fr");
+    }
+
+    //email, first_name, last_name, pass_word, amount_app_account,enabled,authority_id
+    @Test
+    void addUser() {
+        User user = new User("spring@user7.fr", "TouKi", "TouKa", "password");
+        user.setEnabled(1L);
+        user.setRole(authorityService.getAuthorityFromRole("USER"));
+        userService.addUser(user);
     }
 }

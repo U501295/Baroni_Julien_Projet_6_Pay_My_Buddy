@@ -4,12 +4,14 @@ import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +19,10 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "users")
+@DynamicUpdate
 public class User {
 
+    //TODO : mettre des valeurs par defaut
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "user_id")
@@ -37,13 +41,18 @@ public class User {
     private String password;
 
     @Column(nullable = false, name = "amount_app_account")
+    @org.hibernate.annotations.ColumnDefault("0")
     private float amountAppAccount;
 
+    @Column(nullable = false, name = "enabled"/*, columnDefinition = "bigint not null default 1L "*/)
+    @ColumnDefault("1L")
+    private Long enabled;
+
     @ManyToMany(
-            fetch = FetchType.LAZY,
+            //fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    //CascadeType.MERGE
             }
     )
     @JoinTable(
@@ -51,6 +60,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_live_id"),
             inverseJoinColumns = @JoinColumn(name = "user_ressource_id")
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<User> contacts;
 
     @OneToMany(
@@ -69,9 +79,10 @@ public class User {
     private List<TransactionApp> transactionUsers;
 
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(nullable = false, name = "authority_id")
+    @ColumnDefault("USER")
     private Authority role;
 
     @OneToMany(
@@ -90,5 +101,17 @@ public class User {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<AssocUsersUsers> ressourceUsers;
 
+
+    public User(String email, String firstName, String lastName, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.amountAppAccount = 0;
+    }
+
+    public User() {
+
+    }
 
 }

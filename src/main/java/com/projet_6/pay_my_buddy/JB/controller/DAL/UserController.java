@@ -3,13 +3,14 @@ package com.projet_6.pay_my_buddy.JB.controller.DAL;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
+import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -57,6 +58,13 @@ public class UserController {
         model.addAttribute("balance", userService.getBalancefromEmail(SecurityUtils.getUserMail()));
         model.addAttribute("authority", userService.getAuthorityFromEmail(SecurityUtils.getUserMail()));
         return "/PayMyBuddy/profile";
+    }
+
+    @PostMapping("/contacts/saveContact")
+    public ModelAndView addContact(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+
+        return new ModelAndView("/redirect");
+
     }
 
 

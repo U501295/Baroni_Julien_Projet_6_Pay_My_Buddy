@@ -20,4 +20,7 @@ public class Authority {
     private String authority;
 
 
+    public Authority() {
+        this.authority = "USER";
+    }
 }
