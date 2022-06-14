@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ class UserServiceTest {
 
     @Autowired
     AuthorityService authorityService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     void getUserById() {
@@ -109,9 +113,28 @@ class UserServiceTest {
     //email, first_name, last_name, pass_word, amount_app_account,enabled,authority_id
     @Test
     void addUser() {
-        User user = new User("spring@user7.fr", "TouKi", "TouKa", "password");
+        User user = new User("spring@user8.fr", "Eight", "Ocho", passwordEncoder.encode("user8"));
         user.setEnabled(1L);
         user.setRole(authorityService.getAuthorityFromRole("USER"));
         userService.addUser(user);
+    }
+
+    @Test
+    void existingUsersNotAddedAsContactByLiveUser() {
+        List<User> test = userService.getExistingUsersNotAddedAsContactByLiveUser("spring@user1.fr");
+        String endpoint = "";
+    }
+
+    @Test
+    void compareUsers() {
+        User user = new User("spring@user7.fr", "TouKi", "TouKa", "password");
+        user.setEnabled(1L);
+        user.setRole(authorityService.getAuthorityFromRole("USER"));
+        User user2 = new User("spring@user7.fr", "TouK", "TouKa", "password");
+        user2.setEnabled(1L);
+        user2.setRole(authorityService.getAuthorityFromRole("USER"));
+        boolean test = userService.compareUsers(user, user2);
+        String endpoint = "";
+
     }
 }

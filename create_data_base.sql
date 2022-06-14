@@ -19,7 +19,7 @@ email VARCHAR(100) NOT NULL UNIQUE,
 first_name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 pass_word VARCHAR(100) NOT NULL,
-enabled BIGINT DEFAULT 1,
+enabled BIGINT NOT NULL DEFAULT 1,
 amount_app_account FLOAT DEFAULT 0.0,
 authority_id BIGINT NOT NULL DEFAULT ('USER'),
 FOREIGN KEY (authority_id)

@@ -114,4 +114,34 @@ public class User {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+
+        // If the object is compared with itself then return true
+        if (o == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Complex or not
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof User)) {
+            return false;
+        }
+
+        // typecast o to User so that we can compare data members
+        User c = (User) o;
+
+        // Compare the data members which are interesting for us and return accordingly
+        if (this.email == c.email
+                &&
+                this.getFirstName() == c.getFirstName()
+                &&
+                this.getLastName() == c.getLastName()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

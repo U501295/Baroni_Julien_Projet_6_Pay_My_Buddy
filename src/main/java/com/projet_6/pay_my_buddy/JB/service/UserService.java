@@ -8,6 +8,7 @@ import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
 import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,42 @@ public class UserService {
     @Autowired
     private TransactionAppRepository transactionAppRepository;
 
+    private List<User> findDifferenceInUsersLists(List<User> first, List<User> second) {
+        List<User> diff = new ArrayList<>();
+        /*for (User objFirst : first) {
+            if (second.contains(objFirst)) {
+
+            } else {
+                diff.add(objFirst);
+            }
+        }*/
+
+
+        for (User objFirst : first) {
+            boolean isPresent = false;
+            for (User objSecond : second) {
+                String email1 = objFirst.getEmail();
+                String email2 = objSecond.getEmail();
+                if (email1.equals(email2)) {
+                    isPresent = true;
+                }
+                //TODO : regarder contains
+            }
+            if (!isPresent) {
+                diff.add(objFirst);
+            }
+
+        }
+        return diff;
+    }
+
+    public boolean compareUsers(User first, User second) {
+        if (first.equals(second))
+            return true;
+        else {
+            return false;
+        }
+    }
 
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
@@ -102,7 +139,6 @@ public class UserService {
         return balance;
     }
 
-
     public List<String> getContactsNamesFromTheirIds(List<Long> contactIds) {
         List<String> contactsNames = new ArrayList<>();
         for (Long l : contactIds) {
@@ -121,16 +157,6 @@ public class UserService {
         return transactionsFromAConnectedUser;
     }
 
-    public List<TransactionApp> getTransactionsFromAConnectedUserEmail(String email) {
-        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
-        List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getUserByEmail(email).get());
-        /*for (Long contactId:contactsId) {
-            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
-        }
-        transactionAppRepository.findAllByReceiver(userService.getUserById());*/
-        return transactionsFromAConnectedUser;
-    }
-
     /*public List<Float> getAmountsFromAConnectedUserTransactions(String email) {
         //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
         List<Float> AmountsFromAConnectedUserTransactions = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());
@@ -140,6 +166,16 @@ public class UserService {
         transactionAppRepository.findAllByReceiver(userService.getUserById());
         return AmountsFromAConnectedUserTransactions;
     }*/
+
+    public List<TransactionApp> getTransactionsFromAConnectedUserEmail(String email) {
+        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
+        List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getUserByEmail(email).get());
+        /*for (Long contactId:contactsId) {
+            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
+        }
+        transactionAppRepository.findAllByReceiver(userService.getUserById());*/
+        return transactionsFromAConnectedUser;
+    }
 
     public List<MyTransactionLineDTO> getTheConnectedUserTransactions(String email) {
         List<MyTransactionLineDTO> transactionsDto = new ArrayList<>();
@@ -152,6 +188,16 @@ public class UserService {
         return transactionsDto;
     }
 
+    public List<User> getExistingUsersNotAddedAsContactByLiveUser(String email) {
+        List<AssocUsersUsers> assocs = (List<AssocUsersUsers>) assocUsersUsersService.getAllAssociationsCorrespondingToLiveUser(getUserByEmail(email).get().getUserId());
+        List<User> contactUsers = new ArrayList<>();
+        for (AssocUsersUsers assoc : assocs) {
+            contactUsers.add(assoc.getUserRessourceId());
+        }
+        List<User> existingUsers = userRepository.findAllByEmailIsNot(email);
+        List<User> existingUsersNotAddedAsContactByLiveUser = findDifferenceInUsersLists(existingUsers, contactUsers);
+        return existingUsersNotAddedAsContactByLiveUser;
+    }
 
     public void deleteContact(User user, Long idOfUserToDelete) {
         List<User> contacts = user.getContacts();

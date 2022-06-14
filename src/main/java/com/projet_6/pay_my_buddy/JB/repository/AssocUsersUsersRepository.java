@@ -11,4 +11,5 @@ import java.util.List;
 public interface AssocUsersUsersRepository extends CrudRepository<AssocUsersUsers, Long> {
 
     public List<AssocUsersUsers> findAllByUserLiveId(User user);
+
 }

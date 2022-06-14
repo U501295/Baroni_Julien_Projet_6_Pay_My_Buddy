@@ -30,10 +30,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin();
 
-        /*http
-                .csrf()
-                .ignoringAntMatchers("localhost://8080/**");
         http
+                .csrf().disable();
+        /*http
                 .headers()
                 .frameOptions()
                 .sameOrigin();*/

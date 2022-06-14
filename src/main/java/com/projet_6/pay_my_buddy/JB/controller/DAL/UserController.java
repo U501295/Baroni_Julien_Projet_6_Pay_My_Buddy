@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/PayMyBuddy/")
+@RequestMapping("/PayMyBuddy")
 public class UserController {
 
     @Autowired
@@ -45,8 +45,12 @@ public class UserController {
         log.info("contacts page request from user {}", SecurityUtils.getUserMail());
         List<String> names = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
         Iterable<String> listNames = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<String> emails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<User> contactsToBeAdded = userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail());
         model.addAttribute("names", names);
         model.addAttribute("contactsNames", listNames);
+        model.addAttribute("emails", emails);
+        model.addAttribute("contactsToBeAdded", contactsToBeAdded);
         return "/PayMyBuddy/contacts";
     }
 
@@ -60,10 +64,13 @@ public class UserController {
         return "/PayMyBuddy/profile";
     }
 
-    @PostMapping("/contacts/saveContact")
-    public ModelAndView addContact(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-
-        return new ModelAndView("/redirect");
+    @PostMapping("/contacts")
+    public String addContact(@RequestParam("email") String email, Model model) {
+        log.info("Post page request from user {}", SecurityUtils.getUserMail());
+        //model.addAttribute("contactsToBeAdded",userService.getExistingUsersNotAddedAsContactByLiveUser(email))
+        userService.addContact(SecurityUtils.getUserMail(), email);
+        log.info("add contact request from user {}", SecurityUtils.getUserMail());
+        return contacts(model);
 
     }
 

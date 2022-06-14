@@ -32,13 +32,23 @@
     <tr th:each="name: ${contactsNames}">
         <td><span th:text="${name}"></span></td>
     </tr>
+    <tr th:each="email: ${emails}">
+        <td><span th:text="${email}"></span></td>
+    </tr>
     </tbody>
+</table>
+<h2 class="h2">Add a contact</h2>
+<table>
+    <form action="/PayMyBuddy/contacts" method="POST">
+        <select name="email">
+            <option th:each="contactToBeAdded: ${contactsToBeAdded}" th:text="${contactToBeAdded.getEmail()}"
+                    th:value="${contactToBeAdded.getEmail()}">
+            </option>
+        </select>
+        <input type="submit"/>
+    </form>
 
-    <!--<form method="post" th:action="@{/contacts/saveContact}">
-        <input th:field="*{firstName}" type="text">
-        <input th:field="*{lastName}" type="text">
-        <button c type="submit">Ajouter un nouveau contact</button>
-    </form>-->
+
 </table>
 </body>
 
