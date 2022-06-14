@@ -3,7 +3,9 @@ package com.projet_6.pay_my_buddy.JB.controller.DAL;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
+import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
+import com.projet_6.pay_my_buddy.JB.service.TransactionAppService;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TransactionAppService transactionAppService;
+
     @GetMapping("/HOME")
     public String home(Model model) {
         log.info("Home page request from user {}", SecurityUtils.getUserMail());
@@ -38,6 +43,17 @@ public class UserController {
         model.addAttribute("transactions", myTransactionsDTO);
         model.addAttribute("transactionLines", listTransactions);
         return "/PayMyBuddy/transferApp";
+    }
+
+    @PostMapping("/transferApp")
+    public String addTransferApp(@RequestParam("email") String email, @RequestParam("amount") float amount, @RequestParam("description") String description, Model model) {
+        List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("emails", contactEmails);
+        TransactionApp transactionApp =
+                new TransactionApp(userService.getUserByEmail(SecurityUtils.getUserMail()).get(),
+                        userService.getUserByEmail(email).get(), amount, description);
+        transactionAppService.addATransaction(transactionApp);
+        return transferApp(model);
     }
 
     @GetMapping("/contacts")

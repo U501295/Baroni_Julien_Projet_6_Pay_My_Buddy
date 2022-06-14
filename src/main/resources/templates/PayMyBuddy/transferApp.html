@@ -26,6 +26,29 @@
 
 <h2 class="h2">My Transactions</h2>
 <table>
+    <form action="/PayMyBuddy/transferApp" method="POST">
+        <select name="email">
+            <option th:each="mail: ${emails}" th:text=mail th:value=mail>
+            </option>
+        </select>
+        <!--<tr th:each="email: ${emails}">
+            <td><span th:text="${email}"></span></td>
+        </tr>-->
+
+        <div name="amount">
+            <label>Amount</label>
+            <input name=amount type=number>
+        </div>
+        <div name="decription">
+            <label>Description</label>
+            <input name=description type="text">
+        </div>
+        <input type="submit"/>
+    </form>
+
+
+</table>
+<table>
     <thead>
     <tr>
         <th>Connections</th>

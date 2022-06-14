@@ -31,13 +31,13 @@ public class TransactionApp {
     private Date date;
 
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(name = "user_sender_id")
     private User sender;
 
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(name = "user_receiver_id")
     private User receiver;
@@ -69,6 +69,6 @@ public class TransactionApp {
     }
 
     public TransactionApp() {
-        
+
     }
 }
