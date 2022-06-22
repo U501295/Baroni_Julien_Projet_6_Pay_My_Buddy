@@ -8,21 +8,48 @@
 <body>
 <!-- navbar-->
 <div th:replace="fragments/header :: header"></div>
-<!-- breadcrumb-->
-<div class="container-fluid p-2 pb-1 bg-light">
-    <nav aria-label="" breadcrumb>
-        <ol breadcrumb class="">
-            <li aria-current="page" class="breadcrumb-item active">transferBank</li>
-        </ol>
-    </nav>
-</div>
 
 <div class="container-lg pt-5">
     <h2 class="text-center">
         <span>transferBank</span>
+        <table>
+            <form action="/PayMyBuddy/transferBank" method="POST">
+                <select name="bankAccount">
+                    <option th:each="bankAccount: ${connectedUser.get().getBankAccounts()}"
+                            th:text="${bankAccount.getBankAccountId()}"
+                            th:value="${bankAccount.getBankAccountId()}">
+                    </option>
+                </select>
+                <div name="bankAmount">
+                    <label>Amount</label>
+                    <input name=bankAmount type=number>
+                </div>
+                <input type="submit"/>
+            </form>
+
+
+        </table>
     </h2>
 
 </div>
+
+<h2 class="h2">My Bank Transactions</h2>
+
+<table>
+    <tr>
+        <td><span th:text="${connectedUser.get().getAmountAppAccount()}"> Current balance </span></td>
+    </tr>
+    <tbody>
+    <tr th:if="${bankTransactions.isEmpty()}">
+        <td colspan="3">No transactions in database</td>
+    </tr>
+    <tr th:each="bankTransaction: ${bankTransactions}">
+        <td><span th:text="${bankTransaction.getDate()}"> Date </span></td>
+        <td><span th:text="${bankTransaction.getBankTransferedAmount()}"> Transfered sum </span></td>
+        <td><span th:text="${bankTransaction.getBankAccount().getBankAccountId()}"> BankAccount Number </span></td>
+    </tr>
+    </tbody>
+</table>
 
 
 </body>

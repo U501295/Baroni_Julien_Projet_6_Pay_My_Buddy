@@ -137,4 +137,10 @@ class UserServiceTest {
         String endpoint = "";
 
     }
+
+    @Test
+    void processTransactionBetweenUsers() {
+        //userService.processTransactionBetweenUsers("spring@user1.fr", "spring@user2.fr", 50f);
+        userService.updateUserAppAccount("spring@user1.fr", 50f);
+    }
 }

@@ -28,6 +28,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 
 
+
+
     /*@Query
             (value = "use paymybuddyp6; select user_ressource_id from assoc_users_users where user_live_id = :connectedUserId", nativeQuery = true)
     //public Iterable<Long> findAUserContacts(@Param("connectedUserId") Long id);

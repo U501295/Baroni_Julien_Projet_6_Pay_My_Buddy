@@ -12,8 +12,15 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
-    public void transfertToBank(int sum, BankAccount bankAccount) {
+    @Autowired
+    private UserService userService;
 
+    public BankAccount getConnectedUserBankAccount(String email) {
+        return bankAccountRepository.findBankAccountByUserId(userService.getUserByEmail(email).get());
+    }
+
+    public BankAccount getBankAccountFromAccountNumber(Long id) {
+        return bankAccountRepository.findBankAccountByBankAccountId(id);
     }
 
 

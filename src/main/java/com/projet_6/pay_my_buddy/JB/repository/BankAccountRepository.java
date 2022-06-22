@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankAccountRepository extends CrudRepository<BankAccount, Long> {
+
+    public BankAccount findBankAccountByUserId(User user);
+
+    public BankAccount findBankAccountByBankAccountId(Long id);
 }

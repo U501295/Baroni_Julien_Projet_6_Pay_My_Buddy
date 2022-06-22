@@ -157,6 +157,10 @@ public class UserService {
         return transactionsFromAConnectedUser;
     }
 
+    public User addAUser(User user) {
+        return userRepository.save(user);
+    }
+
     /*public List<Float> getAmountsFromAConnectedUserTransactions(String email) {
         //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
         List<Float> AmountsFromAConnectedUserTransactions = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());
@@ -175,6 +179,16 @@ public class UserService {
         }
         transactionAppRepository.findAllByReceiver(userService.getUserById());*/
         return transactionsFromAConnectedUser;
+    }
+
+    public void updateUserAppAccount(String mailUser, float amount) {
+        User liveUser = getUserByEmail(mailUser).get();
+        /*User receiver = getUserByEmail(mailReceiver).get();
+        sender.setAmountAppAccount(sender.getAmountAppAccount() - amount);
+        receiver.setAmountAppAccount(receiver.getAmountAppAccount() + amount);
+        addUser(sender);*/
+        liveUser.setAmountAppAccount(liveUser.getAmountAppAccount() + amount);
+        addUser(liveUser);
     }
 
     public List<MyTransactionLineDTO> getTheConnectedUserTransactions(String email) {

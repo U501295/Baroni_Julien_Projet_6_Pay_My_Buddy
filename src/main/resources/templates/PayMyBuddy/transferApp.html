@@ -8,14 +8,7 @@
 <body>
 <!-- navbar-->
 <div th:replace="fragments/header :: header"></div>
-<!-- breadcrumb
-<div class="container-fluid p-2 pb-1 bg-light">
-    <nav aria-label="" breadcrumb>
-        <ol breadcrumb class="">
-            <li aria-current="page" class="breadcrumb-item active">transferApp</li>
-        </ol>
-    </nav>
-</div>-->
+
 
 <div class="container-lg pt-5">
     <h2 class="text-center">
@@ -23,18 +16,26 @@
     </h2>
 
 </div>
+<form action="/PayMyBuddy/contacts" method="GET">
+    <div class="container-lg pt-5">
+        <h2 class="text-center">
+            <input type="submit" value="Add a connection"/>
+        </h2>
+
+    </div>
+</form>
+
 
 <h2 class="h2">My Transactions</h2>
 <table>
     <form action="/PayMyBuddy/transferApp" method="POST">
+        <tr>
+            <td><span th:text="${connectedUser.get().getAmountAppAccount()}"> Current balance </span></td>
+        </tr>
         <select name="email">
-            <option th:each="mail: ${emails}" th:text=mail th:value=mail>
+            <option th:each="mail: ${emails}" th:text="${mail}" th:value="${mail}">
             </option>
         </select>
-        <!--<tr th:each="email: ${emails}">
-            <td><span th:text="${email}"></span></td>
-        </tr>-->
-
         <div name="amount">
             <label>Amount</label>
             <input name=amount type=number>

@@ -3,9 +3,13 @@ package com.projet_6.pay_my_buddy.JB.controller.DAL;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
+import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
+import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
+import com.projet_6.pay_my_buddy.JB.service.BankAccountService;
 import com.projet_6.pay_my_buddy.JB.service.TransactionAppService;
+import com.projet_6.pay_my_buddy.JB.service.TransactionBankService;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,12 @@ public class UserController {
     @Autowired
     TransactionAppService transactionAppService;
 
+    @Autowired
+    TransactionBankService transactionBankService;
+
+    @Autowired
+    BankAccountService bankAccountService;
+
     @GetMapping("/HOME")
     public String home(Model model) {
         log.info("Home page request from user {}", SecurityUtils.getUserMail());
@@ -37,11 +47,14 @@ public class UserController {
     @GetMapping("/transferApp")
     public String transferApp(Model model) {
         log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
+        List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("emails", contactEmails);
         MyTransactionsDTO myTransactionsDTO = new MyTransactionsDTO();
         myTransactionsDTO.setMyTransactions(userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail()));
         Iterable<MyTransactionLineDTO> listTransactions = userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail());
         model.addAttribute("transactions", myTransactionsDTO);
         model.addAttribute("transactionLines", listTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
         return "/PayMyBuddy/transferApp";
     }
 
@@ -52,8 +65,27 @@ public class UserController {
         TransactionApp transactionApp =
                 new TransactionApp(userService.getUserByEmail(SecurityUtils.getUserMail()).get(),
                         userService.getUserByEmail(email).get(), amount, description);
+        userService.updateUserAppAccount(SecurityUtils.getUserMail(), -amount);
+        userService.updateUserAppAccount(email, amount);
         transactionAppService.addATransaction(transactionApp);
         return transferApp(model);
+    }
+
+    @GetMapping("/transferBank")
+    public String transferBank(Model model) {
+        List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("bankTransactions", bankTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
+        return "/PayMyBuddy/transferBank";
+    }
+
+    @PostMapping("/transferBank")
+    public String addTransferBank(@RequestParam("bankAmount") float bankAmount, @RequestParam("bankAccount") BankAccount bankAccount, Model model) {
+        log.info("POST transfer bank");
+        TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
+        transactionBankService.addABankTransaction(transactionBank);
+        userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
+        return transferBank(model);
     }
 
     @GetMapping("/contacts")
@@ -83,7 +115,7 @@ public class UserController {
     @PostMapping("/contacts")
     public String addContact(@RequestParam("email") String email, Model model) {
         log.info("Post page request from user {}", SecurityUtils.getUserMail());
-        //model.addAttribute("contactsToBeAdded",userService.getExistingUsersNotAddedAsContactByLiveUser(email))
+        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(email));
         userService.addContact(SecurityUtils.getUserMail(), email);
         log.info("add contact request from user {}", SecurityUtils.getUserMail());
         return contacts(model);
