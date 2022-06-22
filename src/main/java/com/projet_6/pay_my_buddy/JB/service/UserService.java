@@ -157,10 +157,6 @@ public class UserService {
         return transactionsFromAConnectedUser;
     }
 
-    public User addAUser(User user) {
-        return userRepository.save(user);
-    }
-
     /*public List<Float> getAmountsFromAConnectedUserTransactions(String email) {
         //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
         List<Float> AmountsFromAConnectedUserTransactions = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());

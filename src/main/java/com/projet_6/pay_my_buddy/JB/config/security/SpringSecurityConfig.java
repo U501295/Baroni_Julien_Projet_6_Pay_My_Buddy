@@ -24,11 +24,29 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/templates/PayMyBuddy").hasRole("USER")
+                .antMatchers(
+                        "/PayMyBuddy/registration"
+                ).permitAll()
+                //.antMatchers("/admin").hasRole("ADMIN")
+                //.antMatchers("/templates/PayMyBuddy").hasRole("USER");
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                .defaultSuccessUrl("/PayMyBuddy/home");
+        /*http
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/visitor/*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/user/home")
+                .failureUrl("/loginerror")
+                .and()
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/loginlogout"));*/
 
         http
                 .csrf().disable();

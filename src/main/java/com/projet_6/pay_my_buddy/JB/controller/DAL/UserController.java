@@ -7,12 +7,10 @@ import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
-import com.projet_6.pay_my_buddy.JB.service.BankAccountService;
-import com.projet_6.pay_my_buddy.JB.service.TransactionAppService;
-import com.projet_6.pay_my_buddy.JB.service.TransactionBankService;
-import com.projet_6.pay_my_buddy.JB.service.UserService;
+import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +34,29 @@ public class UserController {
 
     @Autowired
     BankAccountService bankAccountService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    AuthorityService authorityService;
+
+    @GetMapping("/registration")
+    public String registration(Model model) {
+        log.info("Registration page request");
+        return "/PayMyBuddy/registration";
+    }
+
+    @PostMapping("/registration")
+    public String addTransferApp(@RequestParam("email") String email, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("password") String password, Model model) {
+        User userToRegister = new User(email, firstName, lastName, passwordEncoder.encode(password));
+        userToRegister.setEnabled(1L);
+        userToRegister.setRole(authorityService.getAuthorityFromRole("USER"));
+        userService.addUser(userToRegister);
+        //return registration(model);
+        return "redirect:/PayMyBuddy/HOME";
+    }
+
 
     @GetMapping("/HOME")
     public String home(Model model) {
