@@ -16,38 +16,47 @@
     <h1 class="text-center">
         <span>Contacts</span>
     </h1>
+    <div style="margin: 30px">
+        <h2 class="h2">My added contacts</h2>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Contact name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="name: ${contactsNames}">
+                        <td th:text="${name}">
+                        </td>
+                    </tr>
+                    </tbody>
 
-</div>
-<div style="margin: 30px">
-    <h2 class="h2">My added contacts</h2>
-</div>
-
-<div class="container">
-    <div th:switch="${#lists.size(names)}">
-        <tr th:case="'0'">
-            <td colspan="3">No contacts found in database</td>
-        </tr>
-        <div class="row" th:case="*">
-            <div class="col-2">
-                <tr th:each="name: ${contactsNames}">
-                    <div class="col">
-                        <td><span th:text="${name}"></span></td>
-                    </div>
-                </tr>
+                </table>
             </div>
-            <div class="col-4">
-                <tr th:each="email: ${emails}">
-                    <div class="col">
-                        <td><span th:text="${email}"></span></td>
-                    </div>
-                </tr>
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Contact email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="email: ${emails}">
+                        <td th:text="${email}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+    <h2 style="margin: 30px">Add a contact</h2>
 </div>
 
-
-<h2 style="margin: 30px">Add a contact</h2>
 <div class="container">
     <form action="/PayMyBuddy/contacts" method="POST">
 

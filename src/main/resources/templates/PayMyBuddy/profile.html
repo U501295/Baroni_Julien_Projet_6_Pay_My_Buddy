@@ -8,32 +8,43 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
 </head>
 <body>
-<!-- navbar-->
+
 <div th:replace="fragments/header :: header"></div>
-
-<div class="container-lg pt-5">
-    <h2 class="text-center">
-        <span>PROFILE : </span>
-    </h2>
-    <h2>
-        <span>USER NAME :</span>
-        <span th:text="${userName}"></span>
-    </h2>
-    <h2>
-        <span>NAME :</span>
-        <span th:text="${name}"></span>
-    </h2>
-    <h2>
-        <span>BALANCE :</span>
-        <span th:text="${balance}"></span>
-    </h2>
-    <h2>
-        <span>ROLE :</span>
-        <span th:text="${authority}"></span>
-    </h2>
-
+<h2 class="text-center" style="margin: 30px">
+    <span>Profile</span>
+</h2>
+<div class="container">
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            Settings
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div>
+                    <span>USER NAME :</span>
+                    <span th:text="${userName}"></span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <span>NAME :</span>
+                    <span th:text="${name}"></span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <span>BALANCE :</span>
+                    <span th:text="${balance}"></span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <span>ROLE :</span>
+                    <span th:text="${authority}"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
-
-
 </body>
 </html>
