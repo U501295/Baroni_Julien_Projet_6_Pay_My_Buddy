@@ -32,7 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/PayMyBuddy/home");
+                .defaultSuccessUrl("/PayMyBuddy/HOME");
         /*http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()

@@ -9,8 +9,9 @@
 </head>
 
 <body>
+
 <div class="container">
-    <h2 class="text-center">
+    <h2 class="bg-success text-center my-auto border border-primary text-white">
         <span>PAY MY BUDDY</span>
     </h2>
 
@@ -19,33 +20,80 @@
 
 <div class="container">
     <div class="card">
-        <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new account</p>
+        <div class="card-body register-card-body text-center">
+            <p class="login-box-msg">Welcome to Pay My Buddy ! We make moving your money, Easy !!!</p>
         </div>
+        <div class="card-header text-center">
+            Register a new account
+        </div>
+        <form action="/PayMyBuddy/registration" method="POST">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-2" style="margin: 20px; line-height: 3em">
+                            <div name="email">
+                                <label>email</label>
+                            </div>
+                            <div name="firstName">
+                                <label>firstName</label>
+                            </div>
+                            <div name="lastName">
+                                <label>lastName</label>
+                            </div>
+                            <div name="password">
+                                <label>password</label>
+                            </div>
+                        </div>
+                        <div class="col-4" style="margin-top: 25px">
+                            <div name="email" style="margin-bottom: 20px">
+                                <input name=email type=text>
+                            </div>
+                            <div name="firstName" style="margin-bottom: 20px">
+                                <input name=firstName type=text>
+                            </div>
+                            <div name="lastName" style="margin-bottom: 20px">
+                                <input name=lastName type=text>
+                            </div>
+                            <div name="password" style="margin-bottom: 20px">
+                                <input name=password type="text">
+                            </div>
+                        </div>
+                        <div class="col" style="margin-top: 75px">
+                            <input type="submit"/>
+                        </div>
 
-        <table>
-            <form action="/PayMyBuddy/registration" method="POST">
-                <div name="email">
-                    <label>email</label>
-                    <input name=email type=text>
-                </div>
-                <div name="firstName">
-                    <label>firstName</label>
-                    <input name=firstName type=text>
-                </div>
-                <div name="lastName">
-                    <label>lastName</label>
-                    <input name=lastName type=text>
-                </div>
-                <div name="password">
-                    <label>password</label>
-                    <input name=password type="text">
-                </div>
-                <input type="submit"/>
-            </form>
+                    </div>
 
 
-        </table>
+                </div>
+
+                <!--
+                <table>
+                    <form action="/PayMyBuddy/registration" method="POST">
+                        <div name="email">
+                            <label>email</label>
+                            <input name=email type=text>
+                        </div>
+                        <div name="firstName">
+                            <label>firstName</label>
+                            <input name=firstName type=text>
+                        </div>
+                        <div name="lastName">
+                            <label>lastName</label>
+                            <input name=lastName type=text>
+                        </div>
+                        <div name="password">
+                            <label>password</label>
+                            <input name=password type="text">
+                        </div>
+                        <input type="submit"/>
+                    </form>
+
+
+                </table>-->
+
+            </div>
+        </form>
     </div>
 </div>
 

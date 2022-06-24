@@ -8,31 +8,60 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
 </head>
 <body>
-<!-- navbar-->
+
 <div th:replace="fragments/header :: header"></div>
 
 
 <div class="container-lg pt-5">
-    <h2 class="text-center">
+    <h1 class="text-center">
         <span>App transfer</span>
-    </h2>
+    </h1>
 
 </div>
-<form action="/PayMyBuddy/contacts" method="GET">
-    <div class="container-lg pt-5">
+<div class="container-lg pt-5">
+    <form action="/PayMyBuddy/contacts" method="GET">
+
         <div class="row">
-            <div class="text-center">
+            <div class="text-end">
                 <input type="submit" value="Add a connection"/>
             </div>
         </div>
 
 
+    </form>
+
+    <div style="margin: 30px">
+        <h2 class="h2">Add a transaction</h2>
     </div>
-</form>
 
 
-<h2 class="h2">Add a transaction</h2>
-<div class="container">
+    <div class="container">
+        <form action="/PayMyBuddy/transferApp" method="POST">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Current balance</th>
+                    <th scope="col">Email of the receiver</th>
+                    <th scope="col">Amount to transfer</th>
+                    <th scope="col">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span th:text="${connectedUser.get().getAmountAppAccount()}"> Current balance </span></td>
+                    <td><select name="email">
+                        <option th:each="mail: ${emails}" th:text="${mail}" th:value="${mail}">
+                        </option>
+                    </select></td>
+                    <td><input name=amount type=number></td>
+                    <td><input name=description type="text"></td>
+                    <td><input type="submit"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <!--
     <div class="col-8">
         <form action="/PayMyBuddy/transferApp" method="POST">
             <div>
@@ -57,30 +86,37 @@
             <input type="submit"/>
         </form>
     </div>
+</div>navbar-->
 
 
+    <div style="margin: 30px">
+        <h2 class="h2">My past transactions</h2>
+    </div>
+    <div th:switch="${#lists.size(transactions.myTransactions)}">
+        <div th:case="'0'">
+            <td colspan="3">There is no existing transactions in the database</td>
+
+        </div>
+
+        <div th:case="*">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Connections</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="transactionLine: ${transactionLines}">
+                    <td><span th:text="${transactionLine.getName()}"> Name </span></td>
+                    <td><span th:text="${transactionLine.getDescription()}"> Description </span></td>
+                    <td><span th:text="${transactionLine.getAmount()}"> Amount </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<h2 class="h2">My past transactions</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Connections</th>
-        <th>Description</th>
-        <th>Amount</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${transactions.myTransactions.isEmpty()}">
-        <td colspan="3">There is no existing transactions in the database</td>
-    </tr>
-    <tr th:each="transactionLine: ${transactionLines}">
-        <td><span th:text="${transactionLine.getName()}"> Name </span></td>
-        <td><span th:text="${transactionLine.getDescription()}"> Description </span></td>
-        <td><span th:text="${transactionLine.getAmount()}"> Amount </span></td>
-    </tr>
-    </tbody>
-</table>
-
-
 </body>
 </html>
