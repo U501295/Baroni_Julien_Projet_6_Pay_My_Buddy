@@ -23,5 +23,9 @@ public class BankAccountService {
         return bankAccountRepository.findBankAccountByBankAccountId(id);
     }
 
+    public BankAccount addBankAccount(BankAccount bankAccount) {
+        return bankAccountRepository.save(bankAccount);
+    }
+
 
 }

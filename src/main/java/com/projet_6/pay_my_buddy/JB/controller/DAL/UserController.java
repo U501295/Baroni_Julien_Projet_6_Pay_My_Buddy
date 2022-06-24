@@ -10,12 +10,15 @@ import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Slf4j
@@ -41,9 +44,21 @@ public class UserController {
     @Autowired
     AuthorityService authorityService;
 
+    /*@RolesAllowed({"USER", "ADMIN"})
+    @RequestMapping("HOME/admin")
+    public String getAdmin() {
+        log.info("connexion request from admin {}", SecurityUtils.getUserMail());
+        return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
+    }*/
+
+
     @GetMapping("/registration")
     public String registration(Model model) {
         log.info("Registration page request");
+        //mettre ici un log-off
+        if (SecurityUtils.isUserConnected()) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
         return "/PayMyBuddy/registration";
     }
 
@@ -53,7 +68,7 @@ public class UserController {
         userToRegister.setEnabled(1L);
         userToRegister.setRole(authorityService.getAuthorityFromRole("USER"));
         userService.addUser(userToRegister);
-        //return registration(model);
+
         return "redirect:/PayMyBuddy/HOME";
     }
 
@@ -104,8 +119,8 @@ public class UserController {
     public String addTransferBank(@RequestParam("bankAmount") float bankAmount, @RequestParam("bankAccount") BankAccount bankAccount, Model model) {
         log.info("POST transfer bank");
         TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
-        transactionBankService.addABankTransaction(transactionBank);
         userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
+        transactionBankService.addABankTransaction(transactionBank);
         return transferBank(model);
     }
 

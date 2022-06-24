@@ -157,32 +157,8 @@ public class UserService {
         return transactionsFromAConnectedUser;
     }
 
-    /*public List<Float> getAmountsFromAConnectedUserTransactions(String email) {
-        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
-        List<Float> AmountsFromAConnectedUserTransactions = transactionAppRepository.findAllBySender(getConnectedUserByEmail(email).get());
-        /*for (Long contactId:contactsId) {
-            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
-        }
-        transactionAppRepository.findAllByReceiver(userService.getUserById());
-        return AmountsFromAConnectedUserTransactions;
-    }*/
-
-    public List<TransactionApp> getTransactionsFromAConnectedUserEmail(String email) {
-        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
-        List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getUserByEmail(email).get());
-        /*for (Long contactId:contactsId) {
-            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
-        }
-        transactionAppRepository.findAllByReceiver(userService.getUserById());*/
-        return transactionsFromAConnectedUser;
-    }
-
     public void updateUserAppAccount(String mailUser, float amount) {
         User liveUser = getUserByEmail(mailUser).get();
-        /*User receiver = getUserByEmail(mailReceiver).get();
-        sender.setAmountAppAccount(sender.getAmountAppAccount() - amount);
-        receiver.setAmountAppAccount(receiver.getAmountAppAccount() + amount);
-        addUser(sender);*/
         liveUser.setAmountAppAccount(liveUser.getAmountAppAccount() + amount);
         addUser(liveUser);
     }

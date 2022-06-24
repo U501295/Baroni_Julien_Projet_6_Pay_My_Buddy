@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.model.entity;
 
+import com.projet_6.pay_my_buddy.JB.config.exception.NegativeBalanceException;
 import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
 import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.Getter;
@@ -43,11 +44,9 @@ public class User {
     @Column(nullable = false, name = "amount_app_account")
     @org.hibernate.annotations.ColumnDefault("0")
     private float amountAppAccount;
-
     @Column(nullable = false, name = "enabled"/*, columnDefinition = "bigint not null default 1L "*/)
     @ColumnDefault("1L")
     private Long enabled;
-
     @ManyToMany(
             //fetch = FetchType.EAGER,
             cascade = {
@@ -63,12 +62,14 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<User> contacts;
 
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_account_id")
     private List<BankAccount> bankAccounts;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -77,14 +78,12 @@ public class User {
     @JoinColumn(name = "transaction_app_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TransactionApp> transactionUsers;
-
     @ManyToOne(
             cascade = CascadeType.MERGE
     )
     @JoinColumn(nullable = false, name = "authority_id")
     @ColumnDefault("USER")
     private Authority role;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -92,7 +91,6 @@ public class User {
     @JoinColumn(name = "user_live_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<AssocUsersUsers> liveUsers;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -100,7 +98,6 @@ public class User {
     @JoinColumn(name = "user_ressource_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<AssocUsersUsers> ressourceUsers;
-
 
     public User(String email, String firstName, String lastName, String password) {
         this.email = email;
@@ -110,8 +107,17 @@ public class User {
         this.amountAppAccount = 0;
     }
 
+
     public User() {
 
+    }
+
+    public void setAmountAppAccount(float amountAppAccount) {
+        if (amountAppAccount < 0) {
+            throw new NegativeBalanceException();
+        } else {
+            this.amountAppAccount = amountAppAccount;
+        }
     }
 
     @Override

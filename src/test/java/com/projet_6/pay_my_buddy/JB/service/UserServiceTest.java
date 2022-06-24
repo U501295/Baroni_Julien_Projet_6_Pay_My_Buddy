@@ -37,7 +37,7 @@ class UserServiceTest {
 
     @Test
     void getUserByEmail() {
-        String email = "spring@user1.fr";
+        String email = "spring@user14.fr";
         User userTest = userService.getUserByEmail(email).get();
         Assertions.assertThat(userTest.getUserId().equals(1L)).isTrue();
     }
@@ -141,6 +141,6 @@ class UserServiceTest {
     @Test
     void processTransactionBetweenUsers() {
         //userService.processTransactionBetweenUsers("spring@user1.fr", "spring@user2.fr", 50f);
-        userService.updateUserAppAccount("spring@user1.fr", 50f);
+        userService.updateUserAppAccount("spring@user1.fr", -50f);
     }
 }

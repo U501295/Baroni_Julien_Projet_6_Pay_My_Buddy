@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="bank_accounts")
+@Table(name = "bank_accounts")
 public class BankAccount {
 
     @Id
@@ -22,7 +22,7 @@ public class BankAccount {
     @ManyToOne(
             cascade = CascadeType.ALL
     )
-    @JoinColumn(nullable = false,name="user_id")
+    @JoinColumn(nullable = false, name = "user_id")
     private User userId;
 
     @OneToMany(
@@ -34,4 +34,11 @@ public class BankAccount {
     private List<TransactionBank> bankTransactions;
 
 
+    public BankAccount(User userId) {
+        this.userId = userId;
+    }
+
+    public BankAccount() {
+
+    }
 }

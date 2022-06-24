@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PayMyBuddy - BankTransfer</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+</head>
+<body>
+<!-- navbar-->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-lg pt-5">
+    <h1 class="text-center">
+        <span>Bank transfer</span>
+    </h1>
+    <div style="margin: 30px">
+        <h2 class="h2">Add a transaction</h2>
+    </div>
+    <form action="/PayMyBuddy/transferBank" method="POST">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Current balance</th>
+                <th scope="col">Bank account number</th>
+                <th scope="col">Amount to transfer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+
+                <td><span th:text="${connectedUser.get().getAmountAppAccount()}"> Current balance </span></td>
+
+                <td>
+                    <select name="bankAccount">
+                        <option th:each="bankAccount: ${connectedUser.get().getBankAccounts()}"
+                                th:text="${bankAccount.getBankAccountId()}"
+                                th:value="${bankAccount.getBankAccountId()}">
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <div name="bankAmount">
+                        <input name=bankAmount type=number>
+                    </div>
+                </td>
+                <td>
+                    <input type="submit"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <h3 class="text-center" style="color: red;font-weight: bold">
+                Balance is too low for you to make the transfer
+            </h3>
+        </div>
+    </form>
+
+
+    <h2 class="h2" style="margin: 30px">My Bank Transactions</h2>
+    <div th:switch="${#lists.size(bankTransactions)}">
+        <div th:case="'0'">
+            <td colspan="3">There is no existing bank transfer in the database</td>
+        </div>
+        <div th:case="*">
+            <table class="table">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount transfered</th>
+                    <th scope="col">Account number</th>
+                </tr>
+                <tbody>
+                <tr th:each="bankTransaction: ${bankTransactions}">
+                    <td><span th:text="${bankTransaction.getDate()}"> Date </span></td>
+                    <td><span th:text="${bankTransaction.getBankTransferedAmount()}"> Transfered sum </span></td>
+                    <td><span
+                            th:text="${bankTransaction.getBankAccount().getBankAccountId()}"> BankAccount Number </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>
