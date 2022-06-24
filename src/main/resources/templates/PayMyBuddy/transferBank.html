@@ -41,7 +41,7 @@
                     </select>
                 </td>
                 <td>
-                    <div name="bankAmount">
+                    <div>
                         <input name=bankAmount required type=number>
                     </div>
                 </td>
@@ -57,7 +57,7 @@
     <h2 class="h2" style="margin: 30px">My Bank Transactions</h2>
     <div th:switch="${#lists.size(bankTransactions)}">
         <div th:case="'0'">
-            <td colspan="3">There is no existing bank transfer in the database</td>
+            <span>There is no existing bank transfer in the database</span>
         </div>
         <div th:case="*">
             <table class="table">
