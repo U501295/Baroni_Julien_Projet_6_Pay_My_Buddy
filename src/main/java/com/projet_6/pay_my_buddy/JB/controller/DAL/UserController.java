@@ -127,7 +127,7 @@ public class UserController {
         log.info("POST transfer bank");
         TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
         try {
-            userService.updateUserAppAccount(SecurityUtils.getUserMail(), bankAmount);
+            userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
         } catch (NegativeBalanceException e) {
             return "redirect:/PayMyBuddy/error/transferBankBalanceTooLow";
         }
