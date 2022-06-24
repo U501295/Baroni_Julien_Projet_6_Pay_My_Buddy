@@ -19,16 +19,13 @@ import java.util.Map;
 @ControllerAdvice
 public class ControllerAdvisor {
 
-    @Autowired
-    UserController userController;
-
     @ExceptionHandler(NegativeBalanceException.class)
     //public ResponseEntity<Object> handleDataNotFoundException(
-    public String handleDataNotFoundException(
+    public void NegativeBalanceException(
             NegativeBalanceException ex, HttpServletRequest request) {
 
         log.info("Balance is too low for user {} to make the transfer", SecurityUtils.getUserMail());
-        String context = request.getRequestURI();
+        /*String context = request.getRequestURI();
         switch (context) {
             case "/PayMyBuddy/transferBank":
                 return "redirect:/PayMyBuddy/error/transferBankBalanceTooLow";
@@ -36,7 +33,7 @@ public class ControllerAdvisor {
                 return "redirect:/PayMyBuddy/error/transferAppBalanceTooLow";
             default:
                 return "redirect:/PayMyBuddy/error/homeBalanceTooLow";
-        }
+        }*/
     }
 
 

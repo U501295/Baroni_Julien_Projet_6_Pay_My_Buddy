@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.controller.DAL;
 
+import com.projet_6.pay_my_buddy.JB.config.exception.NegativeBalanceException;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
@@ -101,8 +102,12 @@ public class UserController {
         TransactionApp transactionApp =
                 new TransactionApp(userService.getUserByEmail(SecurityUtils.getUserMail()).get(),
                         userService.getUserByEmail(email).get(), amount, description);
-        userService.updateUserAppAccount(SecurityUtils.getUserMail(), -amount);
-        userService.updateUserAppAccount(email, amount);
+        try {
+            userService.updateUserAppAccount(SecurityUtils.getUserMail(), -amount);
+            userService.updateUserAppAccount(email, amount);
+        } catch (NegativeBalanceException e) {
+            return "redirect:/PayMyBuddy/error/transferAppBalanceTooLow";
+        }
         transactionAppService.addATransaction(transactionApp);
         return transferApp(model);
     }
@@ -119,7 +124,11 @@ public class UserController {
     public String addTransferBank(@RequestParam("bankAmount") float bankAmount, @RequestParam("bankAccount") BankAccount bankAccount, Model model) {
         log.info("POST transfer bank");
         TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
-        userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
+        try {
+            userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
+        } catch (NegativeBalanceException e) {
+            return "redirect:/PayMyBuddy/error/transferBankBalanceTooLow";
+        }
         transactionBankService.addABankTransaction(transactionBank);
         return transferBank(model);
     }
