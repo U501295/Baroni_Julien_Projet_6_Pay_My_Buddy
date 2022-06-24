@@ -20,7 +20,7 @@ public class BankAccount {
     private Long bankAccountId;
 
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(nullable = false, name = "user_id")
     private User userId;

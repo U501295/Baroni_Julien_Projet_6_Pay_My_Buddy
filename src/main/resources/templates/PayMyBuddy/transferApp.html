@@ -53,9 +53,9 @@
                         <option th:each="mail: ${emails}" th:text="${mail}" th:value="${mail}">
                         </option>
                     </select></td>
-                    <td><input name=amount type=number></td>
-                    <td><input name=description type="text"></td>
-                    <td><input type="submit"/></td>
+                    <td><input min="0" name=amount required type=number></td>
+                    <td><input name=description required type="text"></td>
+                    <td><input type="submit" value="Submit"/></td>
                 </tr>
                 </tbody>
             </table>

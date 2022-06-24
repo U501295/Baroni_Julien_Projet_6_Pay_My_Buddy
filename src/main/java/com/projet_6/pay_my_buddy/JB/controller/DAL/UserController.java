@@ -11,6 +11,7 @@ import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,12 +65,13 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String addTransferApp(@RequestParam("email") String email, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("password") String password, Model model) {
+    public String addRegisteredUser(@RequestParam("email") String email, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("password") String password, Model model) {
         User userToRegister = new User(email, firstName, lastName, passwordEncoder.encode(password));
         userToRegister.setEnabled(1L);
         userToRegister.setRole(authorityService.getAuthorityFromRole("USER"));
         userService.addUser(userToRegister);
-
+        BankAccount bankAccountOfUserToRegister = new BankAccount(userToRegister);
+        bankAccountService.addBankAccount(bankAccountOfUserToRegister);
         return "redirect:/PayMyBuddy/HOME";
     }
 
@@ -125,7 +127,7 @@ public class UserController {
         log.info("POST transfer bank");
         TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
         try {
-            userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);
+            userService.updateUserAppAccount(SecurityUtils.getUserMail(), bankAmount);
         } catch (NegativeBalanceException e) {
             return "redirect:/PayMyBuddy/error/transferBankBalanceTooLow";
         }

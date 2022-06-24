@@ -1,6 +1,7 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
 import com.projet_6.pay_my_buddy.JB.model.entity.Authority;
+import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ class UserServiceTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    BankAccountService bankAccountService;
 
     @Test
     void getUserById() {
@@ -143,4 +147,12 @@ class UserServiceTest {
         //userService.processTransactionBetweenUsers("spring@user1.fr", "spring@user2.fr", 50f);
         userService.updateUserAppAccount("spring@user1.fr", -50f);
     }
+
+    @Test
+    void addABankAccount() {
+        BankAccount testBankAccount = new BankAccount(userService.getUserByEmail("spring@user1.fr").get());
+        bankAccountService.addBankAccount(testBankAccount);
+    }
+
+
 }

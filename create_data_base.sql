@@ -23,7 +23,9 @@ enabled BIGINT NOT NULL DEFAULT 1,
 amount_app_account FLOAT DEFAULT 0.0,
 authority_id BIGINT NOT NULL DEFAULT ('USER'),
 FOREIGN KEY (authority_id)
-REFERENCES authorities (authority_id)
+REFERENCES authorities (authority_id),
+CONSTRAINT CHK_users CHECK (LENGTH(email) > 0 AND LENGTH(first_name) > 0 AND LENGTH(last_name) > 0
+AND LENGTH(pass_word) > 0)
 );
 
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account,enabled,authority_id)
@@ -104,7 +106,8 @@ REFERENCES users (user_id),
 FOREIGN KEY (user_receiver_id)
 REFERENCES users (user_id),
 transfered_amount FLOAT,
-description_expense VARCHAR(100)
+description_expense VARCHAR(100) NOT NULL,
+CONSTRAINT CHK_transactions_app CHECK (LENGTH(description_expense) > 0)
 );
 
 INSERT INTO transactions_app(date,user_sender_id,user_receiver_id,transfered_amount,description_expense)

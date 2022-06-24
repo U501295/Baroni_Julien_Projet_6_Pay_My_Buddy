@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
@@ -64,10 +65,12 @@ public class User {
 
 
     @OneToMany(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
+            //cascade = CascadeType.MERGE,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_account_id")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<BankAccount> bankAccounts;
 
 
