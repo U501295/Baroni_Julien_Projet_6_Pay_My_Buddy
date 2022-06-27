@@ -57,7 +57,65 @@ public class UserController {
         return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
     }*/
 
-    @GetMapping("/parameters/contacts")
+    @GetMapping("/contacts/page/{pageNumber}")
+    public String getPaginated(Model model, @PathVariable("pageNumber") int currentPage) {
+        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail()));
+        Page<String> pageOfNames = userService.findPaginatedString("contactsNames", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
+        Page<String> pageOfEmails = userService.findPaginatedString("contactsEmails", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
+        int totalNamePages = pageOfNames.getTotalPages();
+        long totalNameItems = pageOfNames.getTotalElements();
+        List<String> contactsName = pageOfNames.getContent();
+
+        int totalEmailPages = pageOfEmails.getTotalPages();
+        long totalEmailItems = pageOfEmails.getTotalElements();
+        List<String> contactsEmail = pageOfEmails.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+
+        model.addAttribute("totalNamePages", totalNamePages);
+        model.addAttribute("totalNameItems", totalNameItems);
+        model.addAttribute("contactsName", contactsName);
+
+        model.addAttribute("totalEmailPages", totalEmailPages);
+        model.addAttribute("totalEmailItems", totalEmailItems);
+        model.addAttribute("contactsEmail", contactsEmail);
+
+        if (totalNamePages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalNamePages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/contacts";
+    }
+
+    @GetMapping("/contacts")
+    public String contacts(Model model) {
+        log.info("contacts page request from user {}", SecurityUtils.getUserMail());
+        List<String> names = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        Iterable<String> listNames = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<String> emails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<User> contactsToBeAdded = userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail());
+        model.addAttribute("names", names);
+        model.addAttribute("contactsNames", listNames);
+        model.addAttribute("emails", emails);
+        model.addAttribute("contactsToBeAdded", contactsToBeAdded);
+        //return "/PayMyBuddy/contacts";
+        return getPaginated(model, 0);
+    }
+
+    @PostMapping("/contacts")
+    public String addContact(@RequestParam("email") String email, Model model) {
+        log.info("Post page request from user {}", SecurityUtils.getUserMail());
+        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(email));
+        userService.addContact(SecurityUtils.getUserMail(), email);
+        log.info("add contact request from user {}", SecurityUtils.getUserMail());
+        return contacts(model);
+
+    }
+
+    /*@GetMapping("/parameters/contacts")
     public String getAllPages(Model model) {
         log.info("contactsName page request from user {}", SecurityUtils.getUserMail());
         List<String> names = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
@@ -128,7 +186,7 @@ public class UserController {
         }
 
         return "/PayMyBuddy/parameters/contacts";
-    }
+    }*/
 
 
     @GetMapping("/registration")
@@ -212,19 +270,6 @@ public class UserController {
         return transferBank(model);
     }
 
-    @GetMapping("/contacts")
-    public String contacts(Model model) {
-        log.info("contacts page request from user {}", SecurityUtils.getUserMail());
-        List<String> names = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
-        Iterable<String> listNames = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
-        List<String> emails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
-        List<User> contactsToBeAdded = userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail());
-        model.addAttribute("names", names);
-        model.addAttribute("contactsNames", listNames);
-        model.addAttribute("emails", emails);
-        model.addAttribute("contactsToBeAdded", contactsToBeAdded);
-        return "/PayMyBuddy/contacts";
-    }
 
     @GetMapping("/profile")
     public String profile(Model model) {
@@ -234,16 +279,6 @@ public class UserController {
         model.addAttribute("balance", userService.getBalancefromEmail(SecurityUtils.getUserMail()));
         model.addAttribute("authority", userService.getAuthorityFromEmail(SecurityUtils.getUserMail()));
         return "/PayMyBuddy/profile";
-    }
-
-    @PostMapping("/contacts")
-    public String addContact(@RequestParam("email") String email, Model model) {
-        log.info("Post page request from user {}", SecurityUtils.getUserMail());
-        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(email));
-        userService.addContact(SecurityUtils.getUserMail(), email);
-        log.info("add contact request from user {}", SecurityUtils.getUserMail());
-        return contacts(model);
-
     }
 
 

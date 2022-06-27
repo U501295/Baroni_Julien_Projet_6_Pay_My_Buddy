@@ -29,9 +29,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="name: ${contactsNames}">
-                        <td th:text="${name}">
+                    <tr th:each="contactName : ${contactsName}">
+                        <td th:text="${contactName}">
                         </td>
+
                     </tr>
                     </tbody>
 
@@ -45,12 +46,26 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="email: ${emails}">
-                        <td th:text="${email}"></td>
+                    <tr th:each="contactEmail : ${contactsEmail}">
+                        <td th:text="${contactEmail}">
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="position-relative" style="left: 42%">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item,ml-2 p-4 bg-light" th:each="pageNumber : ${pageNumbers}"
+                        th:if="${totalNamePages > 0}">
+                        <a class="page-link"
+                           th:class="${pageNumber==currentPage} ? active"
+                           th:href="@{'/PayMyBuddy/contacts/page/' + ${pageNumber}}"
+                           th:text="${pageNumber+1}"></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 
