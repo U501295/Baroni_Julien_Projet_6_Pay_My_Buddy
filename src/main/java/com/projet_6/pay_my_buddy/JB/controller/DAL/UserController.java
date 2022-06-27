@@ -68,16 +68,26 @@ public class UserController {
         model.addAttribute("contactsNames", listNames);
         model.addAttribute("emails", emails);
         model.addAttribute("contactsToBeAdded", contactsToBeAdded);
-        Page<String> page = userService.findPaginatedString("contactsName", PageRequest.of(0, 2), SecurityUtils.getUserMail());
+        Page<String> page = userService.findPaginatedString("contactsNames", PageRequest.of(0, 2), SecurityUtils.getUserMail());
+        Page<String> pageOfEmails = userService.findPaginatedString("contactsEmails", PageRequest.of(0, 2), SecurityUtils.getUserMail());
+
         int totalNamePages = page.getTotalPages();
         long totalNameItems = page.getTotalElements();
         List<String> contactsName = page.getContent();
+
+        int totalEmailPages = pageOfEmails.getTotalPages();
+        long totalEmailItems = pageOfEmails.getTotalElements();
+        List<String> contactsEmail = pageOfEmails.getContent();
 
         model.addAttribute("currentPage", 0);
 
         model.addAttribute("totalNamePages", totalNamePages);
         model.addAttribute("totalNameItems", totalNameItems);
         model.addAttribute("contactsName", contactsName);
+
+        model.addAttribute("totalEmailPages", totalEmailPages);
+        model.addAttribute("totalEmailItems", totalEmailItems);
+        model.addAttribute("contactsEmail", contactsEmail);
 
         if (totalNamePages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(0, totalNamePages)
@@ -91,14 +101,24 @@ public class UserController {
     @GetMapping("/parameters/contacts/page/{pageNumber}")
     public String getPaginated(Model model, @PathVariable("pageNumber") int currentPage) {
         Page<String> pageOfNames = userService.findPaginatedString("contactsNames", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
+        Page<String> pageOfEmails = userService.findPaginatedString("contactsEmails", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
         int totalNamePages = pageOfNames.getTotalPages();
         long totalNameItems = pageOfNames.getTotalElements();
         List<String> contactsName = pageOfNames.getContent();
 
+        int totalEmailPages = pageOfEmails.getTotalPages();
+        long totalEmailItems = pageOfEmails.getTotalElements();
+        List<String> contactsEmail = pageOfEmails.getContent();
+
         model.addAttribute("currentNamePage", currentPage);
+
         model.addAttribute("totalNamePages", totalNamePages);
         model.addAttribute("totalNameItems", totalNameItems);
         model.addAttribute("contactsName", contactsName);
+
+        model.addAttribute("totalEmailPages", totalEmailPages);
+        model.addAttribute("totalEmailItems", totalEmailItems);
+        model.addAttribute("contactsEmail", contactsEmail);
 
         if (totalNamePages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(0, totalNamePages)

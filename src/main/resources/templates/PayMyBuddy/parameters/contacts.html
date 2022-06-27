@@ -29,9 +29,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="name: ${contactsNames}">
+                    <!--<tr th:each="name: ${contactsNames}">
                         <td th:text="${name}">
                         </td>
+                    </tr>-->
+                    <tr th:each="contactName : ${contactsName}">
+                        <td th:text="${contactName}">
+                        </td>
+
                     </tr>
                     </tbody>
 
@@ -45,8 +50,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="email: ${emails}">
+                    <!--<tr th:each="email: ${emails}">
                         <td th:text="${email}"></td>
+                    </tr>-->
+                    <tr th:each="contactEmail : ${contactsEmail}">
+                        <td th:text="${contactEmail}">
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
@@ -54,7 +64,7 @@
         </div>
     </div>
 
-    <table border="1">
+    <!--<table border="1">
         <thead>
         <tr>
             <th scope="col">Contact name</th>
@@ -62,19 +72,43 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="contact : ${contactsName}">
-            <td th:text="${contact}">
+        <tr th:each="contactName : ${contactsName}">
+            <td th:text="${contactName}">
+            </td>
+
+        </tr>
+        <tr th:each="contactEmail : ${contactsEmail}">
+            <td th:text="${contactEmail}">
             </td>
 
         </tr>
         </tbody>
-    </table>
-    <div class="pagination" th:each="pageNumber : ${pageNumbers}"
-         th:if="${totalNamePages > 0}">
-        <a th:class="${pageNumber==currentPage} ? active"
-           th:href="@{'/PayMyBuddy/parameters/contacts/page/' + ${pageNumber}}"
-           th:text="${pageNumber}"></a>
+    </table>-->
+    <div class="container">
+        <div class="row">
+
+            <div class="pagination" th:each="pageNumber : ${pageNumbers}"
+                 th:if="${totalNamePages > 0}">
+                <a th:class="${pageNumber==currentPage} ? active"
+                   th:href="@{'/PayMyBuddy/parameters/contacts/page/' + ${pageNumber}}"
+                   th:text="${pageNumber+1}"></a>
+            </div>
+        </div>
     </div>
+
+    <div class="position-relative" style="left: 42%">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item,ml-2 p-4 bg-light" th:each="pageNumber : ${pageNumbers}"
+                    th:if="${totalNamePages > 0}">
+                    <a class="page-link"
+                       th:class="${pageNumber==currentPage} ? active"
+                       th:href="@{'/PayMyBuddy/parameters/contacts/page/' + ${pageNumber}}"
+                       th:text="${pageNumber+1}"></a></li>
+            </ul>
+        </nav>
+    </div>
+
 
     <!--<span th:each="i: ${#numbers.sequence(1, totalPages)}">
     <nav aria-label="Page navigation example">

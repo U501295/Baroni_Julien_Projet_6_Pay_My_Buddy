@@ -223,8 +223,10 @@ public class UserService {
         switch (context) {
             case "contactsNames":
                 contactsInfo = getContactsNameFromAConnectedUserEmail(email);
-            case "contactsEmail":
+                break;
+            case "contactsEmails":
                 contactsInfo = getContactsEmailFromAConnectedUserEmail(email);
+                break;
         }
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
