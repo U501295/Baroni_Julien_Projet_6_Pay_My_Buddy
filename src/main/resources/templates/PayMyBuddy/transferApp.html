@@ -92,7 +92,7 @@
     <div style="margin: 30px">
         <h2 class="h2">My past transactions</h2>
     </div>
-    <div th:switch="${#lists.size(transactions.myTransactions)}">
+    <div th:switch="${#lists.size(transactions)}">
         <div th:case="'0'">
             <td colspan="3">There is no existing transactions in the database</td>
 
@@ -108,13 +108,32 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!--
                 <tr th:each="transactionLine: ${transactionLines}">
+                    <td><span th:text="${transactionLine.getName()}"> Name </span></td>
+                    <td><span th:text="${transactionLine.getDescription()}"> Description </span></td>
+                    <td><span th:text="${transactionLine.getAmount()}"> Amount </span></td>
+                </tr>
+                -->
+                <tr th:each="transactionLine: ${paginatedTransactions}">
                     <td><span th:text="${transactionLine.getName()}"> Name </span></td>
                     <td><span th:text="${transactionLine.getDescription()}"> Description </span></td>
                     <td><span th:text="${transactionLine.getAmount()}"> Amount </span></td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="position-relative" style="left: 42%">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item,ml-2 p-4 bg-light" th:each="pageNumber : ${pageNumbers}"
+                        th:if="${totalTransactionPages > 0}">
+                        <a class="page-link"
+                           th:class="${pageNumber==currentPage} ? active"
+                           th:href="@{'/PayMyBuddy/transferApp/page/' + ${pageNumber}}"
+                           th:text="${pageNumber+1}"></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

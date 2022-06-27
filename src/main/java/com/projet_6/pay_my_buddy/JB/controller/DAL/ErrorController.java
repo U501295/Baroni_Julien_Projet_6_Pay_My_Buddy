@@ -10,15 +10,16 @@ import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Controller
@@ -50,6 +51,41 @@ public class ErrorController {
         return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
     }*/
 
+    @GetMapping("/transferAppBalanceTooLow/page/{pageNumber}")
+    public String getPaginatedTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
+        List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("emails", contactEmails);
+        MyTransactionsDTO myTransactionsDTO = new MyTransactionsDTO();
+        myTransactionsDTO.setMyTransactions(userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail()));
+        Iterable<MyTransactionLineDTO> listTransactions = userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail());
+        model.addAttribute("transactions", myTransactionsDTO);
+        model.addAttribute("transactionLines", listTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
+
+
+        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail()));
+        Page<MyTransactionLineDTO> pageOfTransactions = userService.findPaginatedTransactions(PageRequest.of(currentPage, 5), SecurityUtils.getUserMail());
+        int totalTransactionPages = pageOfTransactions.getTotalPages();
+        long totalTransactionItems = pageOfTransactions.getTotalElements();
+        List<MyTransactionLineDTO> transactions = pageOfTransactions.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+
+        model.addAttribute("totalTransactionPages", totalTransactionPages);
+        model.addAttribute("totalTransactionItems", totalTransactionItems);
+        model.addAttribute("paginatedTransactions", transactions);
+
+        if (totalTransactionPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalTransactionPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/error/transferAppBalanceTooLow";
+    }
+
 
     @GetMapping("/transferAppBalanceTooLow")
     public String transferAppBalanceTooLow(Model model) {
@@ -62,7 +98,8 @@ public class ErrorController {
         model.addAttribute("transactions", myTransactionsDTO);
         model.addAttribute("transactionLines", listTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
-        return "/PayMyBuddy/error/transferAppBalanceTooLow";
+        //return "/PayMyBuddy/error/transferAppBalanceTooLow";
+        return getPaginatedTransaction(model, 0);
     }
 
     @PostMapping("/transferAppBalanceTooLow")

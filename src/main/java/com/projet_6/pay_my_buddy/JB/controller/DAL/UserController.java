@@ -58,7 +58,7 @@ public class UserController {
     }*/
 
     @GetMapping("/contacts/page/{pageNumber}")
-    public String getPaginated(Model model, @PathVariable("pageNumber") int currentPage) {
+    public String getPaginatedString(Model model, @PathVariable("pageNumber") int currentPage) {
         model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail()));
         Page<String> pageOfNames = userService.findPaginatedString("contactsNames", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
         Page<String> pageOfEmails = userService.findPaginatedString("contactsEmails", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
@@ -102,7 +102,7 @@ public class UserController {
         model.addAttribute("emails", emails);
         model.addAttribute("contactsToBeAdded", contactsToBeAdded);
         //return "/PayMyBuddy/contacts";
-        return getPaginated(model, 0);
+        return getPaginatedString(model, 0);
     }
 
     @PostMapping("/contacts")
@@ -218,6 +218,41 @@ public class UserController {
         return "/PayMyBuddy/home";
     }
 
+    @GetMapping("/transferApp/page/{pageNumber}")
+    public String getPaginatedTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
+        List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("emails", contactEmails);
+        MyTransactionsDTO myTransactionsDTO = new MyTransactionsDTO();
+        myTransactionsDTO.setMyTransactions(userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail()));
+        Iterable<MyTransactionLineDTO> listTransactions = userService.getTheConnectedUserTransactions(SecurityUtils.getUserMail());
+        model.addAttribute("transactions", myTransactionsDTO);
+        model.addAttribute("transactionLines", listTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
+
+
+        model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail()));
+        Page<MyTransactionLineDTO> pageOfTransactions = userService.findPaginatedTransactions(PageRequest.of(currentPage, 5), SecurityUtils.getUserMail());
+        int totalTransactionPages = pageOfTransactions.getTotalPages();
+        long totalTransactionItems = pageOfTransactions.getTotalElements();
+        List<MyTransactionLineDTO> transactions = pageOfTransactions.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+
+        model.addAttribute("totalTransactionPages", totalTransactionPages);
+        model.addAttribute("totalTransactionItems", totalTransactionItems);
+        model.addAttribute("paginatedTransactions", transactions);
+
+        if (totalTransactionPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalTransactionPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/transferApp";
+    }
+
     @GetMapping("/transferApp")
     public String transferApp(Model model) {
         log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
@@ -229,11 +264,13 @@ public class UserController {
         model.addAttribute("transactions", myTransactionsDTO);
         model.addAttribute("transactionLines", listTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
-        return "/PayMyBuddy/transferApp";
+        //return "/PayMyBuddy/transferApp";
+        return getPaginatedTransaction(model, 0);
     }
 
     @PostMapping("/transferApp")
     public String addTransferApp(@RequestParam("email") String email, @RequestParam("amount") float amount, @RequestParam("description") String description, Model model) {
+
         List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("emails", contactEmails);
         TransactionApp transactionApp =
