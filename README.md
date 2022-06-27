@@ -1,0 +1,1 @@
+pour le chargement des propriétés merci de demander le fichier spring_config.properties au créateur du projet

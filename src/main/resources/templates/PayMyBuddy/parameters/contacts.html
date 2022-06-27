@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:width="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PayMyBuddy - Home</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container-lg pt-5">
+    <h1 class="text-center">
+        <span>Contacts</span>
+    </h1>
+    <div style="margin: 30px">
+        <h2 class="h2">My added contacts</h2>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Contact name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="name: ${contactsNames}">
+                        <td th:text="${name}">
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Contact email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="email: ${emails}">
+                        <td th:text="${email}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th scope="col">Contact name</th>
+            <th scope="col">Contact email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact : ${contactsName}">
+            <td th:text="${contact}">
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <div class="pagination" th:each="pageNumber : ${pageNumbers}"
+         th:if="${totalNamePages > 0}">
+        <a th:class="${pageNumber==currentPage} ? active"
+           th:href="@{'/PayMyBuddy/parameters/contacts/page/' + ${pageNumber}}"
+           th:text="${pageNumber}"></a>
+    </div>
+
+    <!--<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{'/parameters/contacts/page/' + ${1}}">1</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{'/parameters/contacts/page/' + ${2}}">2</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{'/parameters/contacts/page/' + ${3}}">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+
+    <footer class="panel-footer" style="font-size: large">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{'/parameters/contacts/page/' + ${i}}"></a>
+        </span>
+    </footer>
+
+
+        </span>-->
+    <h2 style="margin: 30px">Add a contact</h2>
+</div>
+
+<!--<div class="container">
+    <form action="/PayMyBuddy/contacts" method="POST">
+
+        <div th:switch="${#lists.size(contactsToBeAdded)}">
+            <div th:case="'0'">
+                <td colspan="3">No contacts to be added found in database</td>
+
+
+            </div>
+
+            <div th:case="*">
+                <select name="email">
+                    <option th:each="contactToBeAdded: ${contactsToBeAdded}" th:text="${contactToBeAdded.getEmail()}"
+                            th:value="${contactToBeAdded.getEmail()}">
+                    </option>
+                </select>
+                <input type="submit" value="Submit"/>
+            </div>
+        </div>
+
+       <div th:if="${contactsToBeAdded.isEmpty()=='true'}">
+            <td colspan="3">No contacts to be added found in database</td>
+        </div>
+        <div th:unless="${contactsToBeAdded.isEmpty()=='false'}">
+            <select name="email">
+                <option th:each="contactToBeAdded: ${contactsToBeAdded}" th:text="${contactToBeAdded.getEmail()}"
+                        th:value="${contactToBeAdded.getEmail()}">
+                </option>
+            </select>
+            <input type="submit"/>
+        </div>
+
+    </form>
+
+
+</div>-->
+</body>
+
+</html>

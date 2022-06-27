@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -155,4 +156,21 @@ class UserServiceTest {
     }
 
 
+    @Test
+    void findPaginated() {
+        List<User> user0 = userService.findPaginatedUsers(0, 2);
+        List<User> user1 = userService.findPaginatedUsers(1, 2);
+        List<User> user2 = userService.findPaginatedUsers(2, 2);
+        List<User> user3 = userService.findPaginatedUsers(3, 2);
+        List<User> user4 = userService.findPaginatedUsers(4, 2);
+    }
+
+    @Test
+    void findPaginatedContactsName() {
+        List<String> contact0 = userService.findPaginatedString("contactsEmail", PageRequest.of(0, 2), "spring@user1.fr").toList();
+        List<String> contact1 = userService.findPaginatedString("contactsEmail", PageRequest.of(1, 2), "spring@user1.fr").toList();
+        List<String> contact2 = userService.findPaginatedString("contactsEmail", PageRequest.of(2, 2), "spring@user1.fr").toList();
+
+
+    }
 }

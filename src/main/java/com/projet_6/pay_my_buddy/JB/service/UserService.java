@@ -7,10 +7,15 @@ import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
 import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -195,6 +200,48 @@ public class UserService {
     public String getUserName(User user) {
         String name = user.getFirstName() + "  " + user.getLastName();
         return name;
+    }
+
+    public List<User> findPaginatedUsers(int pageNo, int pageSize) {
+
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<User> pagedResult = userRepository.findAll(paging);
+
+        return pagedResult.toList();
+    }
+
+    /*public List<String> findPaginatedContactsName(int pageNo, int pageSize, String email) {
+
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<String> pagedResult = (Page<String>) getContactsNameFromAConnectedUserEmail(email); //(paging);
+
+        return pagedResult.toList();
+    }*/
+
+    public Page<String> findPaginatedString(String context, Pageable pageable, String email) {
+        List<String> contactsInfo = new ArrayList<>();
+        switch (context) {
+            case "contactsNames":
+                contactsInfo = getContactsNameFromAConnectedUserEmail(email);
+            case "contactsEmail":
+                contactsInfo = getContactsEmailFromAConnectedUserEmail(email);
+        }
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<String> list;
+
+        if (contactsInfo.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, contactsInfo.size());
+            list = contactsInfo.subList(startItem, toIndex);
+        }
+
+        Page<String> bookPage
+                = new PageImpl<String>(list, PageRequest.of(currentPage, pageSize), contactsInfo.size());
+
+        return bookPage;
     }
 
 

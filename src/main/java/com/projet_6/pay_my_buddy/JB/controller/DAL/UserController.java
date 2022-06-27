@@ -12,6 +12,8 @@ import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Controller
@@ -52,6 +56,59 @@ public class UserController {
         log.info("connexion request from admin {}", SecurityUtils.getUserMail());
         return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
     }*/
+
+    @GetMapping("/parameters/contacts")
+    public String getAllPages(Model model) {
+        log.info("contactsName page request from user {}", SecurityUtils.getUserMail());
+        List<String> names = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        Iterable<String> listNames = userService.getContactsNameFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<String> emails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
+        List<User> contactsToBeAdded = userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail());
+        model.addAttribute("names", names);
+        model.addAttribute("contactsNames", listNames);
+        model.addAttribute("emails", emails);
+        model.addAttribute("contactsToBeAdded", contactsToBeAdded);
+        Page<String> page = userService.findPaginatedString("contactsName", PageRequest.of(0, 2), SecurityUtils.getUserMail());
+        int totalNamePages = page.getTotalPages();
+        long totalNameItems = page.getTotalElements();
+        List<String> contactsName = page.getContent();
+
+        model.addAttribute("currentPage", 0);
+
+        model.addAttribute("totalNamePages", totalNamePages);
+        model.addAttribute("totalNameItems", totalNameItems);
+        model.addAttribute("contactsName", contactsName);
+
+        if (totalNamePages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalNamePages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return getPaginated(model, 0);
+    }
+
+    @GetMapping("/parameters/contacts/page/{pageNumber}")
+    public String getPaginated(Model model, @PathVariable("pageNumber") int currentPage) {
+        Page<String> pageOfNames = userService.findPaginatedString("contactsNames", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
+        int totalNamePages = pageOfNames.getTotalPages();
+        long totalNameItems = pageOfNames.getTotalElements();
+        List<String> contactsName = pageOfNames.getContent();
+
+        model.addAttribute("currentNamePage", currentPage);
+        model.addAttribute("totalNamePages", totalNamePages);
+        model.addAttribute("totalNameItems", totalNameItems);
+        model.addAttribute("contactsName", contactsName);
+
+        if (totalNamePages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalNamePages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/parameters/contacts";
+    }
 
 
     @GetMapping("/registration")

@@ -7,6 +7,9 @@ import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,6 +52,14 @@ public class TransactionAppService {
     public TransactionApp addATransaction(TransactionApp transactionApp) {
 
         return transactionAppRepository.save(transactionApp);
+    }
+
+    public List<TransactionApp> findPaginated(int pageNo, int pageSize) {
+
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<TransactionApp> pagedResult = transactionAppRepository.findAll(paging);
+
+        return pagedResult.toList();
     }
 
     /*public MyTransactionLineDTO getTheUserAppTransactionLine(Long id) {
