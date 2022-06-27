@@ -115,12 +115,39 @@ public class ErrorController {
         return transferAppBalanceTooLow(model);
     }
 
+    @GetMapping("/transferBankBalanceTooLow/page/{pageNumber}")
+    public String getPaginatedBankTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("bankTransactions", bankTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
+        Page<TransactionBank> pageOfBankTransactions = transactionBankService.findPaginatedBankTransfers(PageRequest.of(currentPage, 5), SecurityUtils.getUserMail());
+        int totalBankTransactionPages = pageOfBankTransactions.getTotalPages();
+        long totalBankTransactionItems = pageOfBankTransactions.getTotalElements();
+        List<TransactionBank> paginatedBankTransactions = pageOfBankTransactions.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+
+        model.addAttribute("totalTransactionPages", totalBankTransactionPages);
+        model.addAttribute("totalTransactionItems", totalBankTransactionItems);
+        model.addAttribute("paginatedBankTransactions", paginatedBankTransactions);
+
+        if (totalBankTransactionPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalBankTransactionPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/error/transferBankBalanceTooLow";
+    }
+
     @GetMapping("/transferBankBalanceTooLow")
     public String transferBankBalanceTooLow(Model model) {
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
-        return "/PayMyBuddy/error/transferBankBalanceTooLow";
+        //return "/PayMyBuddy/error/transferBankBalanceTooLow";
+        return getPaginatedBankTransaction(model, 0);
     }
 
     @PostMapping("/transferBankBalanceTooLow")

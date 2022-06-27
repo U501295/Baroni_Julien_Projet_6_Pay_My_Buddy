@@ -286,12 +286,40 @@ public class UserController {
         return transferApp(model);
     }
 
+
+    @GetMapping("/transferBank/page/{pageNumber}")
+    public String getPaginatedBankTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
+        model.addAttribute("bankTransactions", bankTransactions);
+        model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
+        Page<TransactionBank> pageOfBankTransactions = transactionBankService.findPaginatedBankTransfers(PageRequest.of(currentPage, 5), SecurityUtils.getUserMail());
+        int totalBankTransactionPages = pageOfBankTransactions.getTotalPages();
+        long totalBankTransactionItems = pageOfBankTransactions.getTotalElements();
+        List<TransactionBank> paginatedBankTransactions = pageOfBankTransactions.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+
+        model.addAttribute("totalBankTransactionPages", totalBankTransactionPages);
+        model.addAttribute("totalBankTransactionItems", totalBankTransactionItems);
+        model.addAttribute("paginatedBankTransactions", paginatedBankTransactions);
+
+        if (totalBankTransactionPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(0, totalBankTransactionPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "/PayMyBuddy/transferBank";
+    }
+
     @GetMapping("/transferBank")
     public String transferBank(Model model) {
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
-        return "/PayMyBuddy/transferBank";
+        //return "/PayMyBuddy/transferBank";
+        return getPaginatedBankTransaction(model, 0);
     }
 
     @PostMapping("/transferBank")

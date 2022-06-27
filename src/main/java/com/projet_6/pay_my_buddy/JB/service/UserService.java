@@ -3,6 +3,7 @@ package com.projet_6.pay_my_buddy.JB.service;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
+import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
 import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;

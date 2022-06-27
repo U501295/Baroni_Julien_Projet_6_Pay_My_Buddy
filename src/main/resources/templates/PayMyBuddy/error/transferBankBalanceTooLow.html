@@ -72,7 +72,7 @@
                     <th scope="col">Account number</th>
                 </tr>
                 <tbody>
-                <tr th:each="bankTransaction: ${bankTransactions}">
+                <tr th:each="bankTransaction: ${paginatedBankTransactions}">
                     <td><span th:text="${bankTransaction.getDate()}"> Date </span></td>
                     <td><span th:text="${bankTransaction.getBankTransferedAmount()}"> Transfered sum </span></td>
                     <td><span
@@ -90,7 +90,7 @@
                     th:if="${totalTransactionPages > 0}">
                     <a class="page-link"
                        th:class="${pageNumber==currentPage} ? active"
-                       th:href="@{'/PayMyBuddy/transferApp/page/' + ${pageNumber}}"
+                       th:href="@{'/PayMyBuddy/error/transferBankBalanceTooLow/page/' + ${pageNumber}}"
                        th:text="${pageNumber+1}"></a></li>
             </ul>
         </nav>

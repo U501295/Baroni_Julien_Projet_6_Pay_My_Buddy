@@ -67,7 +67,7 @@
                     <th scope="col">Account number</th>
                 </tr>
                 <tbody>
-                <tr th:each="bankTransaction: ${bankTransactions}">
+                <tr th:each="bankTransaction: ${paginatedBankTransactions}">
                     <td><span th:text="${bankTransaction.getDate()}"> Date </span></td>
                     <td><span th:text="${bankTransaction.getBankTransferedAmount()}"> Transfered sum </span></td>
                     <td><span
@@ -76,6 +76,18 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="position-relative" style="left: 42%">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item,ml-2 p-4 bg-light" th:each="pageNumber : ${pageNumbers}"
+                        th:if="${totalBankTransactionPages > 0}">
+                        <a class="page-link"
+                           th:class="${pageNumber==currentPage} ? active"
+                           th:href="@{'/PayMyBuddy/transferBank/page/' + ${pageNumber}}"
+                           th:text="${pageNumber+1}"></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 
