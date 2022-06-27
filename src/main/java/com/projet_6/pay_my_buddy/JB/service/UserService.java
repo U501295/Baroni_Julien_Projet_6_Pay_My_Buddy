@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
+import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
@@ -240,10 +241,30 @@ public class UserService {
             list = contactsInfo.subList(startItem, toIndex);
         }
 
-        Page<String> bookPage
+        Page<String> stringPage
                 = new PageImpl<String>(list, PageRequest.of(currentPage, pageSize), contactsInfo.size());
 
-        return bookPage;
+        return stringPage;
+    }
+
+    public Page<MyTransactionLineDTO> findPaginatedTransactions(Pageable pageable, String email) {
+        List<MyTransactionLineDTO> contactsInfo = getTheConnectedUserTransactions(email);
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<MyTransactionLineDTO> list;
+
+        if (contactsInfo.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, contactsInfo.size());
+            list = contactsInfo.subList(startItem, toIndex);
+        }
+
+        Page<MyTransactionLineDTO> stringPage
+                = new PageImpl<MyTransactionLineDTO>(list, PageRequest.of(currentPage, pageSize), contactsInfo.size());
+
+        return stringPage;
     }
 
 

@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
+import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.Authority;
 import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
@@ -172,5 +173,12 @@ class UserServiceTest {
         List<String> contact2 = userService.findPaginatedString("contactsEmail", PageRequest.of(2, 2), "spring@user1.fr").toList();
 
 
+    }
+
+    @Test
+    void findPaginatedTransactions() {
+        List<MyTransactionLineDTO> contact0 = userService.findPaginatedTransactions(PageRequest.of(0, 2), "spring@user1.fr").toList();
+        List<MyTransactionLineDTO> contact1 = userService.findPaginatedTransactions(PageRequest.of(1, 2), "spring@user1.fr").toList();
+        List<MyTransactionLineDTO> contact2 = userService.findPaginatedTransactions(PageRequest.of(2, 2), "spring@user1.fr").toList();
     }
 }
