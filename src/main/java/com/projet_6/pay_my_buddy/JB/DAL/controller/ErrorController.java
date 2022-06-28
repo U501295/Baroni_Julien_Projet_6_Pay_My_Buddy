@@ -1,13 +1,12 @@
-package com.projet_6.pay_my_buddy.JB.controller.DAL;
+package com.projet_6.pay_my_buddy.JB.DAL.controller;
 
+import com.projet_6.pay_my_buddy.JB.DAL.service.*;
 import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;
-import com.projet_6.pay_my_buddy.JB.model.entity.User;
-import com.projet_6.pay_my_buddy.JB.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

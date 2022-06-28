@@ -1,4 +1,4 @@
-package com.projet_6.pay_my_buddy.JB.repository;
+package com.projet_6.pay_my_buddy.JB.DAL.repository;
 
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;

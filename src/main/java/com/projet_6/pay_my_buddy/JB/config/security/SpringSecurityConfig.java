@@ -27,33 +27,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/PayMyBuddy/registration"
                 ).permitAll()
-                //.antMatchers("/admin").hasRole("ADMIN")
-                //.antMatchers("/templates/PayMyBuddy").hasRole("USER");
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/PayMyBuddy/HOME");
-        /*http
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login*").permitAll()
-                .antMatchers("/visitor/*").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/user/home")
-                .failureUrl("/loginerror")
-                .and()
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/loginlogout"));*/
 
         http
                 .csrf().disable();
-        /*http
-                .headers()
-                .frameOptions()
-                .sameOrigin();*/
     }
 
     @Override
@@ -62,7 +42,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                //TODO : voir ici le problème de l'admin qui peut pas se connecter en tant qu'admin
                 .usersByUsernameQuery(
                         "select email,pass_word, enabled from users where email=?")
                 .authoritiesByUsernameQuery(

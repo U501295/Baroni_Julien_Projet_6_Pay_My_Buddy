@@ -1,15 +1,9 @@
 package com.projet_6.pay_my_buddy.JB.model.entity;
 
-import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
-import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import sun.util.calendar.BaseCalendar;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

@@ -2,19 +2,14 @@ package com.projet_6.pay_my_buddy.JB.model.entity;
 
 import com.projet_6.pay_my_buddy.JB.config.exception.NegativeBalanceException;
 import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
-import com.projet_6.pay_my_buddy.JB.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,9 +40,13 @@ public class User {
     @Column(nullable = false, name = "amount_app_account")
     @org.hibernate.annotations.ColumnDefault("0")
     private float amountAppAccount;
-    @Column(nullable = false, name = "enabled"/*, columnDefinition = "bigint not null default 1L "*/)
+
+
+    @Column(nullable = false, name = "enabled")
     @ColumnDefault("1L")
     private Long enabled;
+
+
     @ManyToMany(
             //fetch = FetchType.EAGER,
             cascade = {
@@ -81,12 +80,16 @@ public class User {
     @JoinColumn(name = "transaction_app_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TransactionApp> transactionUsers;
+
+
     @ManyToOne(
             cascade = CascadeType.MERGE
     )
     @JoinColumn(nullable = false, name = "authority_id")
     @ColumnDefault("USER")
     private Authority role;
+
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
@@ -94,6 +97,8 @@ public class User {
     @JoinColumn(name = "user_live_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<AssocUsersUsers> liveUsers;
+
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,

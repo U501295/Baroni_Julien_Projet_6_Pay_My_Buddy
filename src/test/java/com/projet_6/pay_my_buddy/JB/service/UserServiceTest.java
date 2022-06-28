@@ -1,7 +1,10 @@
 package com.projet_6.pay_my_buddy.JB.service;
 
+import com.projet_6.pay_my_buddy.JB.DAL.service.AuthorityService;
+import com.projet_6.pay_my_buddy.JB.DAL.service.BankAccountService;
+import com.projet_6.pay_my_buddy.JB.DAL.service.TransactionAppService;
+import com.projet_6.pay_my_buddy.JB.DAL.service.UserService;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
-import com.projet_6.pay_my_buddy.JB.model.entity.Authority;
 import com.projet_6.pay_my_buddy.JB.model.entity.BankAccount;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.assertj.core.api.Assertions;

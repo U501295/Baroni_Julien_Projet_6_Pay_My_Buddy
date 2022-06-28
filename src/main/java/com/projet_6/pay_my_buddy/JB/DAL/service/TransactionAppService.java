@@ -1,11 +1,7 @@
-package com.projet_6.pay_my_buddy.JB.service;
+package com.projet_6.pay_my_buddy.JB.DAL.service;
 
-import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
-import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionsDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
-import com.projet_6.pay_my_buddy.JB.model.entity.User;
-import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
-import com.projet_6.pay_my_buddy.JB.repository.TransactionBankRepository;
+import com.projet_6.pay_my_buddy.JB.DAL.repository.TransactionAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionAppService {

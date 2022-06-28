@@ -1,20 +1,17 @@
-package com.projet_6.pay_my_buddy.JB.service;
+package com.projet_6.pay_my_buddy.JB.DAL.service;
 
-import com.projet_6.pay_my_buddy.JB.config.security.SecurityUtils;
 import com.projet_6.pay_my_buddy.JB.model.DTO.MyTransactionLineDTO;
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
-import com.projet_6.pay_my_buddy.JB.model.entity.TransactionBank;
 import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import com.projet_6.pay_my_buddy.JB.model.joinTables.AssocUsersUsers;
-import com.projet_6.pay_my_buddy.JB.repository.TransactionAppRepository;
-import com.projet_6.pay_my_buddy.JB.repository.UserRepository;
+import com.projet_6.pay_my_buddy.JB.DAL.repository.TransactionAppRepository;
+import com.projet_6.pay_my_buddy.JB.DAL.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
