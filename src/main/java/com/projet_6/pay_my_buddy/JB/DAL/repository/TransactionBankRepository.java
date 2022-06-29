@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface TransactionBankRepository extends CrudRepository<TransactionBank, Long>, PagingAndSortingRepository<TransactionBank, Long> {
 
-    public List<TransactionBank> findAllByBankAccount(BankAccount bankAccount);
+    List<TransactionBank> findAllByBankAccount(BankAccount bankAccount);
 
-    public TransactionBank findByBankAccount(BankAccount bankAccount);
 }

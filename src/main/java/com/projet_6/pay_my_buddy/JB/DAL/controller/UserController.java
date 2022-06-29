@@ -99,7 +99,6 @@ public class UserController {
         model.addAttribute("contactsNames", listNames);
         model.addAttribute("emails", emails);
         model.addAttribute("contactsToBeAdded", contactsToBeAdded);
-        //return "/PayMyBuddy/contacts";
         return getPaginatedString(model, 0);
     }
 

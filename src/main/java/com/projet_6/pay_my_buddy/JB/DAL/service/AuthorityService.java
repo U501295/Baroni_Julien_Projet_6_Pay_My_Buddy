@@ -11,11 +11,6 @@ public class AuthorityService {
     @Autowired
     AuthorityRepository authorityRepository;
 
-    public String getAuthorityFromAuthorityId(long id) {
-        String authority = authorityRepository.findAuthorityByAuthorityId(id).get().getAuthority();
-        return authority;
-    }
-
     public Authority getAuthorityFromRole(String role) {
         return authorityRepository.findAuthorityByAuthority(role).get();
     }

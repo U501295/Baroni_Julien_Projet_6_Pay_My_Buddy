@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface TransactionAppRepository extends CrudRepository<TransactionApp, Long>, PagingAndSortingRepository<TransactionApp, Long> {
 
-    public List<TransactionApp> findAllBySender(User senderUser);
+    List<TransactionApp> findAllBySender(User senderUser);
 }

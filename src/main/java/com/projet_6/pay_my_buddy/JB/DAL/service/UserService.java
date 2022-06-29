@@ -28,9 +28,6 @@ public class UserService {
     private AssocUsersUsersService assocUsersUsersService;
 
     @Autowired
-    private TransactionAppService transactionAppService;
-
-    @Autowired
     private TransactionAppRepository transactionAppRepository;
 
     //cette fonction permet de comparer des users suivant leur email pour déterminer

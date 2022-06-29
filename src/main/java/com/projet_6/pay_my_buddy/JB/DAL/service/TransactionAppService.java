@@ -2,6 +2,7 @@ package com.projet_6.pay_my_buddy.JB.DAL.service;
 
 import com.projet_6.pay_my_buddy.JB.model.entity.TransactionApp;
 import com.projet_6.pay_my_buddy.JB.DAL.repository.TransactionAppRepository;
+import com.projet_6.pay_my_buddy.JB.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,20 +49,5 @@ public class TransactionAppService {
 
         return transactionAppRepository.save(transactionApp);
     }
-
-    public List<TransactionApp> findPaginated(int pageNo, int pageSize) {
-
-        Pageable paging = PageRequest.of(pageNo, pageSize);
-        Page<TransactionApp> pagedResult = transactionAppRepository.findAll(paging);
-
-        return pagedResult.toList();
-    }
-
-    /*public MyTransactionLineDTO getTheUserAppTransactionLine(Long id) {
-        User user = userService.getUserById(id).get();
-        String userMail = userService.getUserName(user);
-        //TODO : besoin de faire requete SQL
-
-    }*/
 
 }

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface AssocUsersUsersRepository extends CrudRepository<AssocUsersUsers, Long> {
 
-    public List<AssocUsersUsers> findAllByUserLiveId(User user);
+    List<AssocUsersUsers> findAllByUserLiveId(User user);
 
 }

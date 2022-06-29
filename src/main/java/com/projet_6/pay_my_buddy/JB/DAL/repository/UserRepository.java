@@ -17,22 +17,6 @@ public interface UserRepository extends CrudRepository<User, Long>, PagingAndSor
 
     Optional<User> findUserByEmail(String email);
 
-    Optional<User> findUserByUserId(Long id);
+    List<User> findAllByEmailIsNot(String email);
 
-    public List<User> findAllByEmailIs(String email);
-
-    public List<User> findAllByEmailIsNot(String email);
-
-
-
-
-
-
-
-
-
-    /*@Query
-            (value = "use paymybuddyp6; select user_ressource_id from assoc_users_users where user_live_id = :connectedUserId", nativeQuery = true)
-    //public Iterable<Long> findAUserContacts(@Param("connectedUserId") Long id);
-    public Iterable<Long> (@Param("connectedUserId") Long id);*/
 }

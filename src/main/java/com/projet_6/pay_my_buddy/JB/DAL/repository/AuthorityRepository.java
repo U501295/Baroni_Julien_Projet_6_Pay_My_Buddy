@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface AuthorityRepository extends CrudRepository<Authority, Long> {
 
-    Optional<Authority> findAuthorityByAuthorityId(long id);
-
     Optional<Authority> findAuthorityByAuthority(String role);
 
 }

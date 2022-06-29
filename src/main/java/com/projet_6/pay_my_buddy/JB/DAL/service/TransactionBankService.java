@@ -20,13 +20,11 @@ public class TransactionBankService {
     private TransactionBankRepository transactionBankRepository;
 
     @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private BankAccountService bankAccountService;
 
-    @Autowired
-    private UserService userService;
 
     public List<TransactionBank> getBankTransactionsFromAUserEmail(String email) {
-        return transactionBankRepository.findAllByBankAccount(bankAccountRepository.findBankAccountByUserId(userService.getUserByEmail(email).get()));
+        return transactionBankRepository.findAllByBankAccount(bankAccountService.getBankAccountByUserMail(email));
     }
 
     public TransactionBank addABankTransaction(TransactionBank transactionBank) {
