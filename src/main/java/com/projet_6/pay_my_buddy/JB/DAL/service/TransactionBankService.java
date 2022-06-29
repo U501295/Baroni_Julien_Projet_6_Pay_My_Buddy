@@ -37,6 +37,7 @@ public class TransactionBankService {
         List<TransactionBank> contactsInfo = getBankTransactionsFromAUserEmail(email);
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
+        //startItem correspond au nième élément affiché à travers la pagination
         int startItem = currentPage * pageSize;
         List<TransactionBank> list;
 

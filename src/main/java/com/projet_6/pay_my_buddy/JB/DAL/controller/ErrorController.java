@@ -20,6 +20,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Controller permettant l'affichage des pages correspondantes au rollback d'une transaction.
+ * <p>
+ */
+
+
 @Slf4j
 @Controller
 @RequestMapping("/PayMyBuddy/error")
@@ -42,13 +51,6 @@ public class ErrorController {
 
     @Autowired
     AuthorityService authorityService;
-
-    /*@RolesAllowed({"USER", "ADMIN"})
-    @RequestMapping("HOME/admin")
-    public String getAdmin() {
-        log.info("connexion request from admin {}", SecurityUtils.getUserMail());
-        return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
-    }*/
 
     @GetMapping("/transferAppBalanceTooLow/page/{pageNumber}")
     public String getPaginatedTransaction(Model model, @PathVariable("pageNumber") int currentPage) {

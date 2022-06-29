@@ -13,6 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Couche de sécurité apportée par Spring Security.
+ * La configuration a volontairement été laissée générique avec ".permitAll()",
+ * ".csrf().disable()" et ".authoritiesByUsernameQuery" pourraient être approfondies
+ * si l'industrialisation de la solution est retenue
+ * <p>
+ */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {

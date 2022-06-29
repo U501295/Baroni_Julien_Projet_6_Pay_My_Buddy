@@ -7,12 +7,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Composant permettant de gérer les exceptions soulevés par les services appelés,
+ * au moment où elles remontent la stack jusqu'au controleur.
+ * <p>
+ */
 @Slf4j
 @ControllerAdvice
 public class ControllerAdvisor {
 
     @ExceptionHandler(NegativeBalanceException.class)
-    //public ResponseEntity<Object> handleDataNotFoundException(
     public void NegativeBalanceException(
             NegativeBalanceException ex, HttpServletRequest request) {
 

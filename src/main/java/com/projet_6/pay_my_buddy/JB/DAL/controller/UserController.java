@@ -23,6 +23,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Controller permettant l'affichage des pages correspondantes à une utilisation nominale de l'application.
+ * <p>
+ */
+
 @Slf4j
 @Controller
 @RequestMapping("/PayMyBuddy")

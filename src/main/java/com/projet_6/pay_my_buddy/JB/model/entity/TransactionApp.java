@@ -49,12 +49,6 @@ public class TransactionApp {
         cal.add(Calendar.DATE, 1);
 
         Date date = cal.getTime();
-
-        //SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-
-        //String activeDate = format1.format(date);
-
-
         this.date = date;
         this.sender = sender;
         this.receiver = receiver;

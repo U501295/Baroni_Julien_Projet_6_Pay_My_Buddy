@@ -6,6 +6,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Entité matérialisant la relation many-to-many qui lie deux entitées utilisateurs.
+ * <p>
+ */
+
+
 @Entity
 @Getter
 @Setter

@@ -6,6 +6,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.RequestContextHolder;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Utilitaire permettant de récupérer des informations sur l'utilisateur lors de sa connection.
+ * <p>
+ */
 public final class SecurityUtils {
 
     private SecurityUtils() {

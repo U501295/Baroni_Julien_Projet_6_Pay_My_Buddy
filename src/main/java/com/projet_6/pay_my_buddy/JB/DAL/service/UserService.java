@@ -33,16 +33,10 @@ public class UserService {
     @Autowired
     private TransactionAppRepository transactionAppRepository;
 
+    //cette fonction permet de comparer des users suivant leur email pour déterminer
+    //l'utilisateur connecté et ne pas l'ajouter dans la liste des contacts potentiels à ajouter
     private List<User> findDifferenceInUsersLists(List<User> first, List<User> second) {
         List<User> diff = new ArrayList<>();
-        /*for (User objFirst : first) {
-            if (second.contains(objFirst)) {
-
-            } else {
-                diff.add(objFirst);
-            }
-        }*/
-
 
         for (User objFirst : first) {
             boolean isPresent = false;
@@ -52,7 +46,6 @@ public class UserService {
                 if (email1.equals(email2)) {
                     isPresent = true;
                 }
-                //TODO : regarder contains
             }
             if (!isPresent) {
                 diff.add(objFirst);
@@ -152,12 +145,7 @@ public class UserService {
     }
 
     public List<TransactionApp> getTransactionsFromAConnectedUserId(Long connectedUserId) {
-        //List <Long> contactsId = userService.getContactsIdFromAConnectedUser(connectedUserId);
         List<TransactionApp> transactionsFromAConnectedUser = transactionAppRepository.findAllBySender(getUserById(connectedUserId).get());
-        /*for (Long contactId:contactsId) {
-            transactionsFromAConnectedUser.add(transactionAppRepository.findAllByReceiver(userService.getUserById(contactId).get()))
-        }
-        transactionAppRepository.findAllByReceiver(userService.getUserById());*/
         return transactionsFromAConnectedUser;
     }
 
@@ -208,14 +196,6 @@ public class UserService {
 
         return pagedResult.toList();
     }
-
-    /*public List<String> findPaginatedContactsName(int pageNo, int pageSize, String email) {
-
-        Pageable paging = PageRequest.of(pageNo, pageSize);
-        Page<String> pagedResult = (Page<String>) getContactsNameFromAConnectedUserEmail(email); //(paging);
-
-        return pagedResult.toList();
-    }*/
 
     public Page<String> findPaginatedString(String context, Pageable pageable, String email) {
         List<String> contactsInfo = new ArrayList<>();

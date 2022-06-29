@@ -5,6 +5,15 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * DTO rassemblant le mapping des propriétés de nom du receveur, et les descriptions et montant d'une transaction.
+ * Cela permet d'afficher plus facilement ces informations sur une seule ligne pour le front.
+ * <p>
+ */
+
 @Getter
 @Setter
 public class MyTransactionLineDTO {

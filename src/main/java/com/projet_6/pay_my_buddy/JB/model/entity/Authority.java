@@ -5,6 +5,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * @author : JULIEN BARONI
+ *
+ * <p>
+ * Entité permettant d'associer un rôle à un User, ce rôle est utilisé à des fins de sécurité afin
+ * de dimensionner les privilèges utilisateurs au type de profil connecté.
+ * <p>
+ */
+
+
 @Entity
 @Getter
 @Setter
