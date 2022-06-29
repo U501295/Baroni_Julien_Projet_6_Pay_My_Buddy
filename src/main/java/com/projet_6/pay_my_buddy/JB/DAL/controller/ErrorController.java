@@ -54,7 +54,7 @@ public class ErrorController {
 
     @GetMapping("/transferAppBalanceTooLow/page/{pageNumber}")
     public String getPaginatedTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
-        log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
+        log.debug("transferApp paginated error page request triggered from user {}", SecurityUtils.getUserMail());
         List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("emails", contactEmails);
         MyTransactionsDTO myTransactionsDTO = new MyTransactionsDTO();
@@ -90,7 +90,7 @@ public class ErrorController {
 
     @GetMapping("/transferAppBalanceTooLow")
     public String transferAppBalanceTooLow(Model model) {
-        log.info("transferApp page request from user {}", SecurityUtils.getUserMail());
+        log.info("transferApp error page request triggered from user {}", SecurityUtils.getUserMail());
         List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("emails", contactEmails);
         MyTransactionsDTO myTransactionsDTO = new MyTransactionsDTO();
@@ -105,6 +105,7 @@ public class ErrorController {
 
     @PostMapping("/transferAppBalanceTooLow")
     public String addTransferAppBalanceTooLow(@RequestParam("email") String email, @RequestParam("amount") float amount, @RequestParam("description") String description, Model model) {
+        log.debug("transferApp error page POST request triggered from user {}", SecurityUtils.getUserMail());
         List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("emails", contactEmails);
         TransactionApp transactionApp =
@@ -118,6 +119,7 @@ public class ErrorController {
 
     @GetMapping("/transferBankBalanceTooLow/page/{pageNumber}")
     public String getPaginatedBankTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        log.debug("transferBank paginated error page request triggered from user {}", SecurityUtils.getUserMail());
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
@@ -144,16 +146,16 @@ public class ErrorController {
 
     @GetMapping("/transferBankBalanceTooLow")
     public String transferBankBalanceTooLow(Model model) {
+        log.info("transferBank error page request triggered from user {}", SecurityUtils.getUserMail());
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
-        //return "/PayMyBuddy/error/transferBankBalanceTooLow";
         return getPaginatedBankTransaction(model, 0);
     }
 
     @PostMapping("/transferBankBalanceTooLow")
     public String addTransferBankBalanceTooLow(@RequestParam("bankAmount") float bankAmount, @RequestParam("bankAccount") BankAccount bankAccount, Model model) {
-        log.info("POST transfer bank");
+        log.debug("transferBank error page POST request triggered from user {}", SecurityUtils.getUserMail());
         TransactionBank transactionBank = new TransactionBank(bankAmount, bankAccount);
         transactionBankService.addABankTransaction(transactionBank);
         userService.updateUserAppAccount(SecurityUtils.getUserMail(), -bankAmount);

@@ -54,15 +54,9 @@ public class UserController {
     @Autowired
     AuthorityService authorityService;
 
-    /*@RolesAllowed({"USER", "ADMIN"})
-    @RequestMapping("HOME/admin")
-    public String getAdmin() {
-        log.info("connexion request from admin {}", SecurityUtils.getUserMail());
-        return "Welcome to payMyBuddyApp dear   " + SecurityUtils.getUserMail();
-    }*/
-
     @GetMapping("/contacts/page/{pageNumber}")
     public String getPaginatedString(Model model, @PathVariable("pageNumber") int currentPage) {
+        log.info("Paginated contact page requested from user {}", SecurityUtils.getUserMail());
         model.addAttribute("contactsToBeAdded", userService.getExistingUsersNotAddedAsContactByLiveUser(SecurityUtils.getUserMail()));
         Page<String> pageOfNames = userService.findPaginatedString("contactsNames", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
         Page<String> pageOfEmails = userService.findPaginatedString("contactsEmails", PageRequest.of(currentPage, 2), SecurityUtils.getUserMail());
@@ -122,7 +116,8 @@ public class UserController {
     @GetMapping("/registration")
     public String registration(Model model) {
         log.info("Registration page request");
-        //mettre ici un log-off
+        //cette condition permet un log-off d'une session en cours au cas où l'utilisateur n'aurait
+        //pas fermé sa session avant d'accéder à la page d'enregistrement
         if (SecurityUtils.isUserConnected()) {
             SecurityContextHolder.getContext().setAuthentication(null);
         }
@@ -131,6 +126,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public String addRegisteredUser(@RequestParam("email") String email, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("password") String password, Model model) {
+        log.info("New user created");
         User userToRegister = new User(email, firstName, lastName, passwordEncoder.encode(password));
         userToRegister.setEnabled(1L);
         userToRegister.setRole(authorityService.getAuthorityFromRole("USER"));
@@ -200,7 +196,7 @@ public class UserController {
 
     @PostMapping("/transferApp")
     public String addTransferApp(@RequestParam("email") String email, @RequestParam("amount") float amount, @RequestParam("description") String description, Model model) {
-
+        log.info("transferApp POST request from user {}", SecurityUtils.getUserMail());
         List<String> contactEmails = userService.getContactsEmailFromAConnectedUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("emails", contactEmails);
         TransactionApp transactionApp =
@@ -219,6 +215,7 @@ public class UserController {
 
     @GetMapping("/transferBank/page/{pageNumber}")
     public String getPaginatedBankTransaction(Model model, @PathVariable("pageNumber") int currentPage) {
+        log.info("Paginated transferBank page requested from user {}", SecurityUtils.getUserMail());
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));
@@ -245,6 +242,7 @@ public class UserController {
 
     @GetMapping("/transferBank")
     public String transferBank(Model model) {
+        log.info("transferBank page requested from user {}", SecurityUtils.getUserMail());
         List<TransactionBank> bankTransactions = transactionBankService.getBankTransactionsFromAUserEmail(SecurityUtils.getUserMail());
         model.addAttribute("bankTransactions", bankTransactions);
         model.addAttribute("connectedUser", userService.getUserByEmail(SecurityUtils.getUserMail()));

@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.config.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
  * si l'industrialisation de la solution est retenue
  * <p>
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -63,6 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        log.debug("Successful encoding");
         return passwordEncoder;
     }
 

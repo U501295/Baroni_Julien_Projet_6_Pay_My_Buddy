@@ -1,5 +1,6 @@
 package com.projet_6.pay_my_buddy.JB.config.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
  * Utilitaire permettant de récupérer des informations sur l'utilisateur lors de sa connection.
  * <p>
  */
+@Slf4j
 public final class SecurityUtils {
 
     private SecurityUtils() {
@@ -29,6 +31,7 @@ public final class SecurityUtils {
             userName = userDetails.getUsername();
 
         }
+        log.debug("Negative Balance exception trigerred");
         return userName;
     }
 
@@ -37,10 +40,11 @@ public final class SecurityUtils {
         Authentication authentication = securityContext.getAuthentication();
         String authority = authentication.getAuthorities().toString();
         if (authority.equals("[ROLE_ANONYMOUS]")) {
-
+            log.debug("No connected user recognized");
             return false;
 
         } else {
+            log.debug("Recognized connected user");
             return true;
         }
 

@@ -1,5 +1,7 @@
 package com.projet_6.pay_my_buddy.JB.config.exception;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author : JULIEN BARONI
  *
@@ -9,10 +11,11 @@ package com.projet_6.pay_my_buddy.JB.config.exception;
  * <p>
  */
 
-
+@Slf4j
 public class NegativeBalanceException extends RuntimeException {
 
     public NegativeBalanceException() {
         super("You cannot process this transfer because your balance is too low ");
+        log.debug("Negative Balance exception trigerred");
     }
 }
