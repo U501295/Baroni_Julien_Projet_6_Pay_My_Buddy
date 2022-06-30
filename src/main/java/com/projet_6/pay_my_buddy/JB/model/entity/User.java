@@ -19,7 +19,6 @@ import java.util.List;
 @DynamicUpdate
 public class User {
 
-    //TODO : mettre des valeurs par defaut
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "user_id")
@@ -48,10 +47,9 @@ public class User {
 
 
     @ManyToMany(
-            //fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST
-                    //CascadeType.MERGE
+
             }
     )
     @JoinTable(
@@ -65,7 +63,6 @@ public class User {
 
     @OneToMany(
             cascade = CascadeType.PERSIST,
-            //cascade = CascadeType.MERGE,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_account_id")
