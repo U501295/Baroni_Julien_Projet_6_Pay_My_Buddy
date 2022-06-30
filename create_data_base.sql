@@ -36,19 +36,19 @@ INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, 
 values ('spring@user2.fr', 'Julien', 'Poulpe', '$2y$10$n9ZzPsvqsMX3Ie4fXlUn7e9drrMAtLqFKTyxpnNOXjzdoZCbYRwoO', 150.0, 1,
         1);
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, enabled, authority_id)
-values ('spring@user3.fr', 'Pierre', 'Poulpe', '$2y$10$IxRmEnsgdqKzzKyfjPnY3.TQ6UZYXczdgR7U/Rf4x3V98O/BKu7wC', 150.0, 1,
+values ('spring@user3.fr', 'Pierre', 'Malic', '$2y$10$IxRmEnsgdqKzzKyfjPnY3.TQ6UZYXczdgR7U/Rf4x3V98O/BKu7wC', 150.0, 1,
         1);
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, enabled, authority_id)
-values ('spring@user4.fr', 'Sacha', 'Poulpe', '$2y$10$dQMp8JkWYKQNp/tRZG1xw.I7pq1uM33fGcLpsD3sELVk3a6Wh/CtG', 150.0, 1,
+values ('spring@user4.fr', 'Sacha', 'Pilou', '$2y$10$dQMp8JkWYKQNp/tRZG1xw.I7pq1uM33fGcLpsD3sELVk3a6Wh/CtG', 150.0, 1,
         1);
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, enabled, authority_id)
-values ('spring@user5.fr', 'Ondine', 'Poulpe', '$2y$10$iR1G21/dZ2d144Nwn5.EauRdz/22vFFZmHwFCgad4k4GA/.nPrOye', 150.0, 1,
+values ('spring@user5.fr', 'Ondine', 'Stats', '$2y$10$iR1G21/dZ2d144Nwn5.EauRdz/22vFFZmHwFCgad4k4GA/.nPrOye', 150.0, 1,
         1);
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, enabled, authority_id)
-values ('spring@user6.fr', 'Pikachu', 'Poulpe', '$2y$10$M0dwDhoZBTDtyRw6v8Tyz.0BnvjvKWk0h/J7Vnp4QTQmampMeFu8S', 150.0,
+values ('spring@user6.fr', 'Pikachu', 'Williams', '$2y$10$M0dwDhoZBTDtyRw6v8Tyz.0BnvjvKWk0h/J7Vnp4QTQmampMeFu8S', 150.0,
         1, 1);
 INSERT INTO users (email, first_name, last_name, pass_word, amount_app_account, enabled, authority_id)
-values ('spring@admin1.fr', 'Paul', 'Poulpe', '$2y$10$9qtkP2dKgSthPyCV/32weOhijCbYmhKHtU/G6LXd2Wnu9XhXdUhoy', 150.0, 1,
+values ('spring@admin1.fr', 'Paul', 'Pearson', '$2y$10$9qtkP2dKgSthPyCV/32weOhijCbYmhKHtU/G6LXd2Wnu9XhXdUhoy', 150.0, 1,
         2);
 
 
